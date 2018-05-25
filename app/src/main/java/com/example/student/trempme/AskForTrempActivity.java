@@ -282,7 +282,7 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
                     .setCountry("IL")
                     .build();
             Intent intent =
-                    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+                    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
                             .setFilter(typeFilter)
                             .build(this);
             startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE_FROM);
@@ -424,13 +424,13 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
                 myCalender.set(Calendar.MONTH, month);
                 myCalender.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 chosenYear = year;
-                chosenMonth = month + 1;
+                chosenMonth = month+1;
                 chosenDayOfMonth = dayOfMonth;
-                tvDate.setText(dayOfMonth + "," + chosenMonth + "," + year);
+                tvDate.setText(chosenDayOfMonth + "," + chosenMonth + "," + chosenYear);
 
             }
         };
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, myDateListener, chosenYear, chosenMonth, chosenDayOfMonth);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, myDateListener, chosenYear, chosenMonth-1, chosenDayOfMonth);
 
         datePickerDialog.show();
 
@@ -463,9 +463,10 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
         if (dataToMilSec()) {
             //Log.w("FROM", from);
             Log.w("TO", toId + "");
-            Tremp newTremp = new Tremp(fromId,null,toId,null, departureTime, numberOfTrempists, userAuth.getUid());
             String uniqueID = UUID.randomUUID().toString();
-            myRef.child("Tremp").child(uniqueID).setValue(newTremp);
+            Tremp newTremp = new Tremp(uniqueID,fromId,null,toId,null, departureTime, numberOfTrempists, userAuth.getUid());
+
+            myRef.child("Tremp").push().setValue(newTremp);
         }
     }
 

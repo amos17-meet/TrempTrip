@@ -75,15 +75,16 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private boolean createUserAccount(){
-        User user=new User("",
+        User user=new User(userAuth.getUid(),"",
                 etEmail.getText().toString().toLowerCase(),
                 etPassword.getText().toString(),
+                "",
                 "",
                 null,
                 null
                 );
 
-        myRef.child("User").child(userAuth.getUid()).setValue(user);
+        myRef.child("User").push().setValue(user);
         return true;
     }
 

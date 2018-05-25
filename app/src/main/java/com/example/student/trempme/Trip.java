@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Trip {
+    private String tripId;
     private String fromId;
     private String fromName;
     private String toId;
@@ -16,7 +17,7 @@ public class Trip {
     private List<Tremp> Tremps;
     private String userId;
 
-    public Trip(String fromId,String fromName,String toId,String toName, long departureTime, int numOfAvailableSits,String userId, List<Tremp> Tremps ){
+    public Trip(String tripId, String fromId,String fromName,String toId,String toName, long departureTime, int numOfAvailableSits,String userId, List<Tremp> Tremps ){
         this.fromId=fromId;
         this.fromName=fromName;
         this.toId=toId;
@@ -25,10 +26,19 @@ public class Trip {
         this.departureTime=departureTime;
         this.userId=userId;
         this.Tremps=Tremps;
+        this.tripId=tripId;
     }
 
     public Trip(){
 
+    }
+
+    public String getTripId() {
+        return tripId;
+    }
+
+    public void setTripId(String tripId) {
+        this.tripId = tripId;
     }
 
     public String getFromId() {

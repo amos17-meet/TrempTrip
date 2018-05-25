@@ -114,7 +114,7 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
         setSpinNumberOfAvailableSits();
 
         setFirebaseVariables();
-        setBtnCreateNewTremp();
+        setBtnCreateNewTrip();
 
 
     }
@@ -125,7 +125,7 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
         mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
     }
 
-    private void setBtnCreateNewTremp() {
+    private void setBtnCreateNewTrip() {
         btnCreateNewTrip = findViewById(R.id.btnCreateNewTrip);
         btnCreateNewTrip.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -275,7 +275,7 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
                     .setCountry("IL")
                     .build();
             Intent intent =
-                    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+                    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
                             .setFilter(typeFilter)
                             .build(this);
             startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE_FROM);
@@ -457,9 +457,10 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
         if (dataToMilSec()) {
             //Log.w("FROM", from);
             Log.w("TO", toId + "");
-            Trip newTrip = new Trip(fromId, null, toId, null, departureTime, numberOfTrempists, userAuth.getUid(),tremps);
             String uniqueID = UUID.randomUUID().toString();
-            myRef.child("Trip").child(uniqueID).setValue(newTrip);
+            Trip newTrip = new Trip(uniqueID,fromId, null, toId, null, departureTime, numberOfTrempists, userAuth.getUid(),tremps);
+            myRef.child("Trip").push().setValue(newTrip);
+
         }
     }
 

@@ -17,6 +17,7 @@ import java.util.Date;
 
 public class Tremp {
 
+    private String trempId;
     private String fromId;
     private String fromName;
     private String toId;
@@ -25,21 +26,28 @@ public class Tremp {
     private int numOfAvailableSits;
     private String userId;
 
-    public Tremp(String fromId,String fromName,String toId,String toName,long departureTime, int numOfAvailableSits,String userId ){
+    public Tremp( String trempId,String fromId,String fromName,String toId,String toName,long departureTime, int numOfAvailableSits,String userId ){
         this.fromId=fromId;
         this.fromName=fromName;
         this.toId=toId;
         this.toName=toName;
         this.numOfAvailableSits=numOfAvailableSits;
-
         this.departureTime=departureTime;
         this.userId=userId;
+        this.trempId=trempId;
     }
 
     public Tremp(){
 
     }
 
+    public String getTrempId() {
+        return trempId;
+    }
+
+    public void setTrempId(String trempId) {
+        this.trempId = trempId;
+    }
 
     public String getFromId() {
         return fromId;

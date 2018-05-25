@@ -33,7 +33,8 @@
         <activity android:name=".ShowAllTrempsActivity" />
         <activity android:name=".CreateNewTripActivity" />
         <activity android:name=".ShowAllTripsActivity" />
-        <activity android:name=".MyTrempsRequestsActivity"></activity>
+        <activity android:name=".MyTrempsRequestsActivity" />
+        <activity android:name=".MyTripsActivity"></activity>
     </application>
 
 </manifest>

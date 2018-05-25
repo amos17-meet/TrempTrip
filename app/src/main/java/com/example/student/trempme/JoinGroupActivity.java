@@ -19,7 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class JoinGroupActivity extends AppCompatActivity implements View.OnClickListener {
 
-    EditText etGroupId,etFullName;
+    EditText etGroupId,etFullName,etPhoneNumber;
     Button btnJoinGroup;
 
     FirebaseUser userAuth;
@@ -51,19 +51,28 @@ public class JoinGroupActivity extends AppCompatActivity implements View.OnClick
         if(view==btnJoinGroup){
             etFullName=findViewById(R.id.etFullName);
             etGroupId=findViewById(R.id.etGroupId);
-            Query userQuery=myRef.child("User").orderByChild(userAuth.getUid());
+            etPhoneNumber=findViewById(R.id.etPhoneNumber);
+            Query userQuery=myRef.child("User");
 
             Log.e("PRINT QUERY",userQuery+"");
 
             userQuery.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    User user=dataSnapshot.child(userAuth.getUid()).getValue(User.class);
-                    user.setFullName(etFullName.getText().toString());
-                    user.setGroupId(etGroupId.getText().toString());
-                    myRef.child("User").child(userAuth.getUid()).setValue(user);
-                    Intent intent=new Intent(JoinGroupActivity.this,MainActivity.class);
-                    startActivity(intent);
+                    for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                        User user = singleSnapshot.getValue(User.class);
+                        if(user.getUserId().equals(userAuth.getUid())){
+                            user.setFullName(etFullName.getText().toString());
+                            user.setGroupId(etGroupId.getText().toString());
+                            user.setPhoneNumber(etPhoneNumber.getText().toString());
+                            myRef.child("User").child(singleSnapshot.getKey()).setValue(user);
+                            Intent intent=new Intent(JoinGroupActivity.this,MainActivity.class);
+                            startActivity(intent);
+                        }
+
+                    }
+
+
 
                 }
                 @Override

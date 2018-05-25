@@ -25,11 +25,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyTrempsRequestsActivity extends AppCompatActivity {
-    ListView lvMyTrempsRequests;
-    List<Tremp> myTremps=new ArrayList<>();
+public class MyTripsActivity extends AppCompatActivity {
+
+    ListView lvMyTrips;
+    List<Trip> myTrips=new ArrayList<>();
     List<Place> placeList=new ArrayList<>();
-    TrempListAdapter trempListAdapter;
+    TripListAdapter tripListAdapter;
 
     FirebaseUser userAuth;
     FirebaseDatabase database;
@@ -43,10 +44,10 @@ public class MyTrempsRequestsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_tremps_requests);
+        setContentView(R.layout.activity_my_trips);
         setFirebaseVariables();
         setGoogleAPIVar();
-        setMyTremps();
+        setMyTrips();
     }
 
     private void setFirebaseVariables(){
@@ -59,36 +60,34 @@ public class MyTrempsRequestsActivity extends AppCompatActivity {
         mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
     }
 
-    public void setLvMyTrempsRequests(){
+    public void setLvMyTrips(){
         Log.w("LV","here");
-        lvMyTrempsRequests=findViewById(R.id.lvMyTrempsRequests);
-        trempListAdapter=new TrempListAdapter(this, 0,0,myTremps);
-        lvMyTrempsRequests.setAdapter(trempListAdapter);
+        lvMyTrips=findViewById(R.id.lvMyTrips);
+        tripListAdapter=new TripListAdapter(this, 0,0,myTrips);
+        lvMyTrips.setAdapter(tripListAdapter);
 
     }
 
-
-
-    public void setMyTremps(){
-        Log.w("set my tremps","here");
-        Query allMyTremps=myRef.child("Tremp");
-        Log.w("set my tremps",allMyTremps.toString());
-        allMyTremps.addValueEventListener(new ValueEventListener() {
+    public void setMyTrips(){
+        Log.w("set my trips","here");
+        Query allMyTrips=myRef.child("Trip");
+        Log.w("set my trips",allMyTrips.toString());
+        allMyTrips.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
                     Log.w("event listener",singleSnapshot.toString());
-                    Tremp tremp=singleSnapshot.getValue(Tremp.class);
-                    Log.w("event listener",tremp.getUserId());
-                    if(tremp.getUserId().equals(userAuth.getUid())){
+                    Trip trip=singleSnapshot.getValue(Trip.class);
+                    Log.w("event listener",trip.getUserId());
+                    if(trip.getUserId().equals(userAuth.getUid())){
                         Log.w("event listener","added");
-                        myTremps.add(tremp);
+                        myTrips.add(trip);
                     }
-
 
                 }
                 setPlaceList();
             }
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -100,8 +99,8 @@ public class MyTrempsRequestsActivity extends AppCompatActivity {
 
     private void setPlaceList(){
         Log.w("PlaceList","here");
-        for(Tremp tremp:myTremps){
-            getStartAndEndName(tremp.getFromId(),tremp.getToId());
+        for(Trip trip : myTrips){
+            getStartAndEndName(trip.getFromId(),trip.getToId());
 
         }
     }
@@ -156,8 +155,8 @@ public class MyTrempsRequestsActivity extends AppCompatActivity {
     }
 
     private void canContinueToLv(int sizeOfPlaceList){
-        Log.w("can cuntinue", sizeOfPlaceList+" "+myTremps.size());
-        if(sizeOfPlaceList==myTremps.size()){
+        Log.w("can cuntinue", sizeOfPlaceList+" "+myTrips.size());
+        if(sizeOfPlaceList==myTrips.size()){
             Log.w("can cuntinue", "yes");
             addPlacesNamesToTrempObject();
         }
@@ -165,13 +164,15 @@ public class MyTrempsRequestsActivity extends AppCompatActivity {
 
     private void addPlacesNamesToTrempObject(){
         int i=0;
-        for(Tremp tremp:myTremps){
-            tremp.setFromName(placeList.get(i*2).getName().toString());
-            tremp.setToName(placeList.get((i*2)+1).getName().toString());
+        for(Trip trip : myTrips){
+            trip.setFromName(placeList.get(i*2).getName().toString());
+            trip.setToName(placeList.get((i*2)+1).getName().toString());
             i++;
         }
-        setLvMyTrempsRequests();
+        setLvMyTrips();
     }
+
+
 
 
 }

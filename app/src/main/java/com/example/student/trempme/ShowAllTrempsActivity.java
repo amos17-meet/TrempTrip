@@ -74,6 +74,7 @@ public class ShowAllTrempsActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
                     tremp = singleSnapshot.getValue(Tremp.class);
+                    Log.w("event listener",tremp.getTrempId()+"");
                     trempList.add(tremp);
 
                     Log.w("event listener",tremp.getFromId()+"");

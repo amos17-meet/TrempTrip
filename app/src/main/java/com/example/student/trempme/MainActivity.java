@@ -6,6 +6,9 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,15 +31,15 @@ public class MainActivity extends AppCompatActivity{
     FirebaseUser userAuth;
     FirebaseDatabase database;
     DatabaseReference myRef;
-    Button btnSignOut, btnGoToNewTremp,btnGoToNewTrip,btnShowAllTremps,btnShowAllTrips;
+    Button btnGoToNewTremp,btnGoToNewTrip,btnShowAllTremps,btnShowAllTrips;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Intent intent=new Intent(this,MyTrempsRequestsActivity.class);
-        startActivity(intent);
-        setBtnSignOutListener();
+        //Intent intent=new Intent(this,MyTripsActivity.class);
+        //startActivity(intent);
+
         SetIntentButtons();
 
 
@@ -51,15 +54,21 @@ public class MainActivity extends AppCompatActivity{
         Log.e("PRINT USER AUTH",userAuth+"");
         if(userAuth!=null){
 
-            Query user=myRef.child("User").orderByChild(userAuth.getUid());
+            final Query allUsers=myRef.child("User");
 
-            Log.e("PRINT QUERY",user+"");
+            Log.e("PRINT QUERY",allUsers+"");
 
-            user.addValueEventListener(new ValueEventListener() {
+            allUsers.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    Log.w("TAG",dataSnapshot+"");
-                    hasAllDitails(dataSnapshot);
+                    for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                        User user = singleSnapshot.getValue(User.class);
+                        if(user.getUserId().equals(userAuth.getUid())){
+                            Log.w("TAG", singleSnapshot.toString());
+                            hasAllDitails(singleSnapshot);
+                        }
+
+                    }
 
                 }
                 @Override
@@ -87,7 +96,7 @@ public class MainActivity extends AppCompatActivity{
 
 
     public void hasAllDitails(DataSnapshot dataSnapshot){
-        User user =dataSnapshot.child(userAuth.getUid()).getValue(User.class);
+        User user =dataSnapshot.getValue(User.class);
         if(user.getFullName().equals("")||user.getFullName().equals("")){
             Intent intent =new Intent(MainActivity.this,JoinGroupActivity.class);
             startActivity(intent);
@@ -135,14 +144,31 @@ public class MainActivity extends AppCompatActivity{
 
 
 
-    private void setBtnSignOutListener(){
-        btnSignOut=findViewById(R.id.btnSignOut);
-        btnSignOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.myTrips:
+                intent =new Intent(this,MyTripsActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.myTrempsRequests:
+                intent =new Intent(this,MyTrempsRequestsActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.signOut:
                 signOut();
-            }
-        });
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void signOut(){

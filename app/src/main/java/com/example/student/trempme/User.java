@@ -3,14 +3,16 @@ package com.example.student.trempme;
 import java.util.List;
 
 public class User {
+    private String userId;
     private String fullName;
+    private String phoneNumber;
     private String email;
     private String password;
     private String groupId;
     private List<String> myTrempsIds;
     private List<String> myTripsIds;
 
-    public User(String groupId, String email, String password, String fullName,List<String> myTrempsIds,List<String> myTripsIds)
+    public User(String userId, String groupId, String email, String password, String fullName,String phoneNumber,List<String> myTrempsIds,List<String> myTripsIds)
     {
         this.fullName=fullName;
         this.email=email;
@@ -18,9 +20,20 @@ public class User {
         this.groupId=groupId;
         this.myTrempsIds=myTrempsIds;
         this.myTripsIds=myTripsIds;
+        this.userId=userId;
+        this.phoneNumber=phoneNumber;
     }
     public User(){
 
+    }
+
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getFullName() {
@@ -45,6 +58,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getGroupId() {

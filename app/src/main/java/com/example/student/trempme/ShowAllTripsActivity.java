@@ -27,7 +27,7 @@ import java.util.List;
 
 public class ShowAllTripsActivity extends AppCompatActivity {
 
-    ListView lvTrempList;
+    ListView lvTripList;
 
     List<Trip> tripList=new ArrayList<>();
     List<Place> placeList=new ArrayList<Place>();
@@ -47,25 +47,18 @@ public class ShowAllTripsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_all_trips);
-    }
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         setFirebaseVariables();
         setGoogleAPIVar();
         setTripList();
-
     }
 
 
 
     public void setLvTripList(){
         Log.w("LV","here");
-        lvTrempList=findViewById(R.id.lvTrempList);
+        lvTripList=findViewById(R.id.lvTrempList);
         tripListAdapter=new TripListAdapter(this, 0,0,tripList);
-        lvTrempList.setAdapter(tripListAdapter);
+        lvTripList.setAdapter(tripListAdapter);
 
     }
 
