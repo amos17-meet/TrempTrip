@@ -96,13 +96,11 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
         requestPermissions();
         setAutocompleteFragmentView();
         setGoogleAPIVar();
-        setCurrentPlace();
-        setAutocompleteFragment();
+
         if (hasPermissions) {
             Log.w("hasPermissions", "True");
-            setCoordinationListener();
-            setCoordinationCurrentLocation();
-            //setCurrentPlace();
+            setCurrentPlace();
+            setAutocompleteFragment();
         }
 
 
@@ -117,7 +115,9 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
         setBtnCreateNewTrip();
 
 
+
     }
+
 
 
     private void setGoogleAPIVar(){
@@ -317,7 +317,7 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
                     .setCountry("IL")
                     .build();
             Intent intent =
-                    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+                    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
                             .setFilter(typeFilter)
                             .build(this);
             startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE_TO);
@@ -459,7 +459,7 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
             Log.w("TO", toId + "");
             String uniqueID = UUID.randomUUID().toString();
             Trip newTrip = new Trip(uniqueID,fromId, null, toId, null, departureTime, numberOfTrempists, userAuth.getUid(),tremps);
-            myRef.child("Trip").push().setValue(newTrip);
+            myRef.child("Trip").child(uniqueID).setValue(newTrip);
 
         }
     }

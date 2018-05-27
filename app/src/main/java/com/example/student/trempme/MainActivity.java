@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity{
     DatabaseReference myRef;
     Button btnGoToNewTremp,btnGoToNewTrip,btnShowAllTremps,btnShowAllTrips;
 
+    boolean shouldStartService=true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,21 +56,19 @@ public class MainActivity extends AppCompatActivity{
         Log.e("PRINT USER AUTH",userAuth+"");
         if(userAuth!=null){
 
-            final Query allUsers=myRef.child("User");
+            final Query myUser=myRef.child("User").child(userAuth.getUid());
 
-            Log.e("PRINT QUERY",allUsers+"");
+            Log.e("PRINT QUERY",myUser+"");
 
-            allUsers.addValueEventListener(new ValueEventListener() {
+            myUser.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                        User user = singleSnapshot.getValue(User.class);
-                        if(user.getUserId().equals(userAuth.getUid())){
-                            Log.w("TAG", singleSnapshot.toString());
-                            hasAllDitails(singleSnapshot);
-                        }
 
-                    }
+                    User user = dataSnapshot.getValue(User.class);
+                    Log.w("My User", user.getUserId());
+                    hasAllDitails(dataSnapshot);
+
+
 
                 }
                 @Override
@@ -172,11 +172,28 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void signOut(){
+        shouldStartService=false;
+        Intent intent = new Intent(MainActivity.this, NotificationService.class);
+        stopService(intent);
         FirebaseAuth.getInstance().signOut();
-        Intent intent=new Intent(MainActivity.this,SignInActivity.class);
+        intent=new Intent(MainActivity.this,SignInActivity.class);
         startActivity(intent);
 
     }
 
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        if(shouldStartService){
+//            startService(new Intent(this, NotificationService.class));
+//        }
+//
+//    }
+//
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        startService(new Intent(this, NotificationService.class));
+//    }
 
 }

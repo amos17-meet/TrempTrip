@@ -1,9 +1,12 @@
 package com.example.student.trempme;
 
+import android.support.annotation.NonNull;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-    private String userId;
+    @NonNull private String userId;
     private String fullName;
     private String phoneNumber;
     private String email;
@@ -18,8 +21,8 @@ public class User {
         this.email=email;
         this.password=password;
         this.groupId=groupId;
-        this.myTrempsIds=myTrempsIds;
-        this.myTripsIds=myTripsIds;
+        this.myTrempsIds=new ArrayList<>();
+        this.myTripsIds=new ArrayList<>();
         this.userId=userId;
         this.phoneNumber=phoneNumber;
     }

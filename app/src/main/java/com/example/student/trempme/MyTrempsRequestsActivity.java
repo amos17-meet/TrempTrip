@@ -76,6 +76,7 @@ public class MyTrempsRequestsActivity extends AppCompatActivity {
         allMyTremps.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.w("event listener",dataSnapshot.toString());
                 for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
                     Log.w("event listener",singleSnapshot.toString());
                     Tremp tremp=singleSnapshot.getValue(Tremp.class);

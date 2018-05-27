@@ -35,6 +35,23 @@
         <activity android:name=".ShowAllTripsActivity" />
         <activity android:name=".MyTrempsRequestsActivity" />
         <activity android:name=".MyTripsActivity"></activity>
+
+        <service
+            android:name=".NotificationService"
+            android:label="TrempTrip">
+            <intent-filter>
+                <action android:name="com.example.student.trempme.NotificationService" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+
+
+
+
+
     </application>
+
+
 
 </manifest>

@@ -2,6 +2,7 @@ package com.example.student.trempme;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 
 import com.google.android.gms.location.places.Place;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class TripListAdapter extends ArrayAdapter<Trip> {
@@ -37,8 +40,16 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
         Trip trip = trips.get(position);
         tvFrom.setText(trip.getFromName());
         tvTo.setText(trip.getToName());
-        tvTime.setText(trip.getTrempTime());
-        tvDate.setText(trip.getTrempDate());
+        long ms = trip.getDepartureTime();
+        Date date = new Date(ms);
+        SimpleDateFormat dateformat = new SimpleDateFormat("HH:mm");
+        Log.w("getTripTime",dateformat.format(date));
+        tvTime.setText(dateformat.format(date));
+
+        dateformat = new SimpleDateFormat("MM/dd");
+        Log.w("getTrempDate",dateformat.format(date));
+        tvDate.setText(dateformat.format(date));
+
 
 
 

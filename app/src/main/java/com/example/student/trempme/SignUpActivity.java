@@ -84,7 +84,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 null
                 );
 
-        myRef.child("User").push().setValue(user);
+        myRef.child("User").child(userAuth.getUid()).setValue(user);
         return true;
     }
 
@@ -111,6 +111,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("TAG", "signInWithEmail:success");
+                            startService(new Intent(SignUpActivity.this, NotificationService.class));
                             Intent intent=new Intent(SignUpActivity.this,MainActivity.class);
                             startActivity(intent);
 
@@ -126,6 +127,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 });
 
     }
+
+
 
 
 }

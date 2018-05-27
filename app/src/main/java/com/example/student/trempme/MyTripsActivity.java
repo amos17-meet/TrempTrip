@@ -70,7 +70,7 @@ public class MyTripsActivity extends AppCompatActivity {
 
     public void setMyTrips(){
         Log.w("set my trips","here");
-        Query allMyTrips=myRef.child("Trip");
+        Query allMyTrips=myRef.child("Trip").orderByChild("userId").equalTo(userAuth.getUid());
         Log.w("set my trips",allMyTrips.toString());
         allMyTrips.addValueEventListener(new ValueEventListener() {
             @Override

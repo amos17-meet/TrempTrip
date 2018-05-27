@@ -1,5 +1,6 @@
 package com.example.student.trempme;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
@@ -7,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Trip {
-    private String tripId;
+    @NonNull private String tripId;
     private String fromId;
     private String fromName;
     private String toId;
@@ -105,18 +106,24 @@ public class Trip {
         this.userId = userId;
     }
 
-    public String getTrempTime(){
-        long ms = this.departureTime;
-        Date date = new Date(ms);
-        SimpleDateFormat dateformat = new SimpleDateFormat("HH:mm");
-        Log.w("getTrempTime",dateformat.format(date));
-        return dateformat.format(date);
-    }
-    public String getTrempDate(){
-        long ms = this.departureTime;
-        Date date = new Date(ms);
-        SimpleDateFormat dateformat = new SimpleDateFormat("MM/dd");
-        Log.w("getTrempDate",dateformat.format(date));
-        return dateformat.format(date);
-    }
+//    public String getTripTime(){
+//        long ms = this.departureTime;
+//        Date date = new Date(ms);
+//        SimpleDateFormat dateformat = new SimpleDateFormat("HH:mm");
+//        Log.w("getTrempTime",dateformat.format(date));
+//        return dateformat.format(date);
+//    }
+//    public String getTripDate(){
+//        long ms = this.departureTime;
+//        Date date = new Date(ms);
+//        SimpleDateFormat dateformat = new SimpleDateFormat("MM/dd");
+//        Log.w("getTrempDate",dateformat.format(date));
+//        return dateformat.format(date);
+//    }
+//
+//    public void serTripTime(String time){}
+//
+//    public void serTripDate(String Date){}
+//
+
 }

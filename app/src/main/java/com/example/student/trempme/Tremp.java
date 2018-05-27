@@ -17,7 +17,7 @@ import java.util.Date;
 
 public class Tremp {
 
-    private String trempId;
+    @NonNull private String trempId;
     private String fromId;
     private String fromName;
     private String toId;
@@ -25,6 +25,7 @@ public class Tremp {
     private long departureTime;
     private int numOfAvailableSits;
     private String userId;
+    private boolean notificationSent;
 
     public Tremp( String trempId,String fromId,String fromName,String toId,String toName,long departureTime, int numOfAvailableSits,String userId ){
         this.fromId=fromId;
@@ -35,6 +36,7 @@ public class Tremp {
         this.departureTime=departureTime;
         this.userId=userId;
         this.trempId=trempId;
+        this.notificationSent=false;
     }
 
     public Tremp(){
@@ -105,26 +107,34 @@ public class Tremp {
         this.userId = userId;
     }
 
-    public String getTrempTime(){
-        long ms = this.departureTime;
-        Date date = new Date(ms);
-        SimpleDateFormat dateformat = new SimpleDateFormat("HH:mm");
-        Log.w("getTrempTime",dateformat.format(date));
-        return dateformat.format(date);
-    }
-    public String getTrempDate(){
-        long ms = this.departureTime;
-        Date date = new Date(ms);
-        SimpleDateFormat dateformat = new SimpleDateFormat("MM/dd");
-        Log.w("getTrempDate",dateformat.format(date));
-        return dateformat.format(date);
+    public boolean isNotificationSent() {
+        return notificationSent;
     }
 
-    public void setTrempTime(String time){
-
+    public void setNotificationSent(boolean notificationSent) {
+        this.notificationSent = notificationSent;
     }
-    public void setTrempDate(String date){
 
-    }
+    //    public String getTrempTime(){
+//        long ms = this.departureTime;
+//        Date date = new Date(ms);
+//        SimpleDateFormat dateformat = new SimpleDateFormat("HH:mm");
+//        Log.w("getTrempTime",dateformat.format(date));
+//        return dateformat.format(date);
+//    }
+//    public String getTrempDate(){
+//        long ms = this.departureTime;
+//        Date date = new Date(ms);
+//        SimpleDateFormat dateformat = new SimpleDateFormat("MM/dd");
+//        Log.w("getTrempDate",dateformat.format(date));
+//        return dateformat.format(date);
+//    }
+//
+//    public void setTrempTime(String time){
+//
+//    }
+//    public void setTrempDate(String date){
+//
+//    }
 
 }

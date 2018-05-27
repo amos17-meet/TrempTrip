@@ -63,9 +63,9 @@ public class ShowAllTripsActivity extends AppCompatActivity {
     }
 
     public void setTripList(){
-        Query allTremps=myRef.child("Trip").orderByChild("departureTime");
+        Query allTrips=myRef.child("Trip").orderByChild("departureTime");
 
-        allTremps.addValueEventListener(new ValueEventListener() {
+        allTrips.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){

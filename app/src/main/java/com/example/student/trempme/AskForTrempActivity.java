@@ -106,12 +106,13 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ask_for_tremp);
         requestPermissions();
+
         setAutocompleteFragmentView();
         setGoogleAPIVar();
-        setCurrentPlace();
-        setAutocompleteFragment();
-
-
+        if(hasPermissions){
+            setCurrentPlace();
+            setAutocompleteFragment();
+        }
 
         setTvDepartureTime();
         setTvDate();
@@ -124,7 +125,9 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
         setBtnCreateNewTremp();
 
 
+
     }
+
 
     private void setGoogleAPIVar(){
         mGeoDataClient = Places.getGeoDataClient(this, null);
@@ -324,7 +327,7 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
                     .setCountry("IL")
                     .build();
             Intent intent =
-                    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+                    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
                             .setFilter(typeFilter)
                             .build(this);
             startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE_TO);
@@ -466,7 +469,7 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
             String uniqueID = UUID.randomUUID().toString();
             Tremp newTremp = new Tremp(uniqueID,fromId,null,toId,null, departureTime, numberOfTrempists, userAuth.getUid());
 
-            myRef.child("Tremp").push().setValue(newTremp);
+            myRef.child("Tremp").child(uniqueID).setValue(newTremp);
         }
     }
 
