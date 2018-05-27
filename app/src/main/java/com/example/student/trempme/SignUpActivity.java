@@ -97,7 +97,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         if(etPassword.getText().toString().equals(etConfirmPassword.getText().toString())){
             createAuthAccount();
         }else{
-            Toast.makeText(SignUpActivity.this,"Passwordes Don't Mach",Toast.LENGTH_LONG).show();
+            Toast.makeText(SignUpActivity.this,"Passwords Don't Mach",Toast.LENGTH_LONG).show();
         }
 
     }

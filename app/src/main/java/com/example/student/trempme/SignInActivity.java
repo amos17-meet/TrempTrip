@@ -21,21 +21,21 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     EditText etEmail,etPassword;
     Button btnSignIn, btnGoToSignUp;
     FirebaseAuth auth;
-    FirebaseUser userAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-        setUserAuth();
-        isUserConnected();
         setBtnSignUpListener();
         setBtnGoToSignUpListener();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        isUserConnected();
 
-    private void setUserAuth(){
-        userAuth=FirebaseAuth.getInstance().getCurrentUser();
     }
+
     private void setBtnSignUpListener(){
         btnSignIn=findViewById(R.id.btnSignIn);
         btnSignIn.setOnClickListener(this);
@@ -43,7 +43,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
     private void isUserConnected(){
         Log.w("isUserConnected","here");
-        if(userAuth!=null){
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null){
+            Log.w("isUserConnected","go to main activity");
             Intent intent=new Intent(this,MainActivity.class);
             startActivity(intent);
         }

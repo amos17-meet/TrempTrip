@@ -71,7 +71,7 @@ public class MyTrempsRequestsActivity extends AppCompatActivity {
 
     public void setMyTremps(){
         Log.w("set my tremps","here");
-        Query allMyTremps=myRef.child("Tremp");
+        Query allMyTremps=myRef.child("Tremp").orderByChild("userId").equalTo(userAuth.getUid());
         Log.w("set my tremps",allMyTremps.toString());
         allMyTremps.addValueEventListener(new ValueEventListener() {
             @Override
@@ -81,12 +81,8 @@ public class MyTrempsRequestsActivity extends AppCompatActivity {
                     Log.w("event listener",singleSnapshot.toString());
                     Tremp tremp=singleSnapshot.getValue(Tremp.class);
                     Log.w("event listener",tremp.getUserId());
-                    if(tremp.getUserId().equals(userAuth.getUid())){
-                        Log.w("event listener","added");
-                        myTremps.add(tremp);
-                    }
-
-
+                    Log.w("event listener","added");
+                    myTremps.add(tremp);
                 }
                 setPlaceList();
             }

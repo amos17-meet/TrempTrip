@@ -79,11 +79,8 @@ public class MyTripsActivity extends AppCompatActivity {
                     Log.w("event listener",singleSnapshot.toString());
                     Trip trip=singleSnapshot.getValue(Trip.class);
                     Log.w("event listener",trip.getUserId());
-                    if(trip.getUserId().equals(userAuth.getUid())){
-                        Log.w("event listener","added");
-                        myTrips.add(trip);
-                    }
-
+                    Log.w("event listener","added");
+                    myTrips.add(trip);
                 }
                 setPlaceList();
             }
