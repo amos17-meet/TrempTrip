@@ -1,7 +1,13 @@
 package com.example.student.trempme;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,13 +41,18 @@ public class MainActivity extends AppCompatActivity{
 
     boolean shouldStartService=true;
 
+    private BroadcastReceiver mNetworkReceiver;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //Intent intent=new Intent(this,MyTripsActivity.class);
         //startActivity(intent);
-
+        mNetworkReceiver = new NetworkChangedReceiver();
+        registerNetworkBroadcastForNougat();
         SetIntentButtons();
 
 
@@ -181,6 +192,8 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
+
+
 //    @Override
 //    protected void onStop() {
 //        super.onStop();
@@ -195,5 +208,35 @@ public class MainActivity extends AppCompatActivity{
 //        super.onDestroy();
 //        startService(new Intent(this, NotificationService.class));
 //    }
+
+
+
+    private void registerNetworkBroadcastForNougat() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            registerReceiver(mNetworkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+
+
+
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            registerReceiver(mNetworkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+            String data=mNetworkReceiver.getResultData();
+            Log.w("data",data);
+        }
+    }
+
+    protected void unregisterNetworkChanges() {
+        try {
+            unregisterReceiver(mNetworkReceiver);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterNetworkChanges();
+    }
 
 }
