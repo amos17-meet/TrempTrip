@@ -3,6 +3,7 @@ package com.example.student.trempme;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.media.RingtoneManager;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -122,6 +123,7 @@ public class NotificationService extends Service {
                     .setSmallIcon(R.drawable.places_ic_search)
                     .setContentTitle("See all Trips")
                     .setContentText("Some may fit your tremps ")
+                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                     .setContentIntent(pendingIntent); //Required on Gingerbread and below
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);

@@ -63,7 +63,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                             if (task.isSuccessful()) {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d("TAG", "signInWithEmail:success");
-                                startService(new Intent(SignInActivity.this, NotificationService.class));
+
                                 Intent intent=new Intent(SignInActivity.this,MainActivity.class);
                                 startActivity(intent);
 

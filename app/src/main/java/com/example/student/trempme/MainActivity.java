@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         //Intent intent=new Intent(this,MyTripsActivity.class);
         //startActivity(intent);
+
         mNetworkReceiver = new NetworkChangedReceiver();
         registerNetworkBroadcastForNougat();
         SetIntentButtons();
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity{
 
                     User user = dataSnapshot.getValue(User.class);
                     Log.w("My User", user.getUserId());
+                    startService(new Intent(MainActivity.this, NotificationService.class));
                     hasAllDitails(dataSnapshot);
 
 
@@ -220,8 +222,7 @@ public class MainActivity extends AppCompatActivity{
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             registerReceiver(mNetworkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-            String data=mNetworkReceiver.getResultData();
-            Log.w("data",data);
+
         }
     }
 
