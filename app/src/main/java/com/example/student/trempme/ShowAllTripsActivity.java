@@ -49,7 +49,7 @@ public class ShowAllTripsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_all_trips);
         setFirebaseVariables();
         setGoogleAPIVar();
-        setTripList();
+
     }
 
 
@@ -63,7 +63,7 @@ public class ShowAllTripsActivity extends AppCompatActivity {
     }
 
     public void setTripList(){
-        Query allTrips=myRef.child("Trip").orderByChild("departureTime");
+        Query allTrips=myRef.child("trips").orderByChild("departureTime");
 
         allTrips.addValueEventListener(new ValueEventListener() {
             @Override
@@ -102,10 +102,28 @@ public class ShowAllTripsActivity extends AppCompatActivity {
     }
 
 
-    private void setFirebaseVariables(){
+    private void setFirebaseVariables() {
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference();
         userAuth = FirebaseAuth.getInstance().getCurrentUser();
+        setMyRef();
+    }
+    public void setMyRef() {
+        Query myUser=database.getReference().child("User").child(userAuth.getUid());
+
+        myUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.w("setMyRef",dataSnapshot.toString());
+                String groupOfUser=dataSnapshot.getValue(String.class);
+                myRef=database.getReference().child("Group").child(groupOfUser);
+                setTripList();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void setGoogleAPIVar(){

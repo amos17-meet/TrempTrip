@@ -40,10 +40,13 @@ public class TrempListAdapter extends ArrayAdapter<Tremp> {
         TextView tvTo = (TextView) view.findViewById(R.id.tvTo);
         TextView tvTime = (TextView) view.findViewById(R.id.tvTime);
         TextView tvDate = (TextView) view.findViewById(R.id.tvDate);
+        TextView tvFullName=view.findViewById(R.id.tvFullName);
+        TextView tvPhoneNumber=view.findViewById(R.id.tvPhoneNumber);
         Tremp tremp = tremps.get(position);
         //Log.w("place position",places.get(position*2)+""+places.get((position*2)+1));
         tvFrom.setText(tremp.getFromName());
         tvTo.setText(tremp.getToName());
+
 
         long ms = tremp.getDepartureTime();
         Date date = new Date(ms);

@@ -76,11 +76,18 @@ public class MainActivity extends AppCompatActivity{
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    User user = dataSnapshot.getValue(User.class);
-                    Log.w("My User", user.getUserId());
-                    startService(new Intent(MainActivity.this, NotificationService.class));
-                    hasAllDitails(dataSnapshot);
-
+                    if(!dataSnapshot.getValue().getClass().equals(String.class)) {
+                        User user = dataSnapshot.getValue(User.class);
+                        Log.w("My User", user.getUserId());
+                        //startService(new Intent(MainActivity.this, NotificationService.class));
+                        goToJoinGroup();
+                    }
+                    else {
+                        Log.w("user is string", "true");
+                        startService(new Intent(MainActivity.this, NotificationService.class));
+                        String groupOfUser = dataSnapshot.getValue(String.class);
+                        setMyRef(groupOfUser);
+                    }
 
 
                 }
@@ -106,14 +113,27 @@ public class MainActivity extends AppCompatActivity{
         userAuth = FirebaseAuth.getInstance().getCurrentUser();
     }
 
+    public void setMyRef(String groupId) {
+        myRef=myRef.child("Group").child(groupId);
+        Query q=myRef;
+        q.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Group g=dataSnapshot.getValue(Group.class);
+                Log.w("user",g.getUsers().get(0).getFullName());
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-    public void hasAllDitails(DataSnapshot dataSnapshot){
-        User user =dataSnapshot.getValue(User.class);
-        if(user.getFullName().equals("")||user.getFullName().equals("")){
-            Intent intent =new Intent(MainActivity.this,JoinGroupActivity.class);
-            startActivity(intent);
-        }
+            }
+        });
+    }
+
+    public void goToJoinGroup(){
+
+        Intent intent =new Intent(MainActivity.this,JoinGroupActivity.class);
+        startActivity(intent);
     }
 
     private void SetIntentButtons(){
@@ -186,10 +206,10 @@ public class MainActivity extends AppCompatActivity{
 
     private void signOut(){
         shouldStartService=false;
-        Intent intent = new Intent(MainActivity.this, NotificationService.class);
+        Intent intent = new Intent(this, NotificationService.class);
         stopService(intent);
         FirebaseAuth.getInstance().signOut();
-        intent=new Intent(MainActivity.this,SignInActivity.class);
+        intent=new Intent(this,SignInActivity.class);
         startActivity(intent);
 
     }

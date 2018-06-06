@@ -3,8 +3,8 @@
     package="com.example.student.trempme">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -36,7 +36,7 @@
         <activity android:name=".CreateNewTripActivity" />
         <activity android:name=".ShowAllTripsActivity" />
         <activity android:name=".MyTrempsRequestsActivity" />
-        <activity android:name=".MyTripsActivity"></activity>
+        <activity android:name=".MyTripsActivity" />
 
         <service
             android:name=".NotificationService"
@@ -48,19 +48,13 @@
             </intent-filter>
         </service>
 
-
-        <receiver android:name="com.example.student.trempme.NetworkChangedReceiver">
+        <receiver android:name=".NetworkChangedReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
 
-
-
-
-
+        <activity android:name=".NewGroupActivity"></activity>
     </application>
-
-
 
 </manifest>

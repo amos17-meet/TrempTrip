@@ -22,6 +22,7 @@ import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -40,8 +41,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -74,7 +79,6 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
     private String fromId;
     private double startLat;
     private double stringLon;
-    private List<Tremp> tremps=new ArrayList<Tremp>();
 
 
     FirebaseUser userAuth;
@@ -433,9 +437,28 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
 
     private void setFirebaseVariables() {
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference();
         userAuth = FirebaseAuth.getInstance().getCurrentUser();
+        setMyRef();
     }
+
+    public void setMyRef() {
+        Query myUser=database.getReference().child("User").child(userAuth.getUid());
+
+        myUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.w("setMyRef",dataSnapshot.toString());
+                String groupOfUser=dataSnapshot.getValue(String.class);
+                myRef=database.getReference().child("Group").child(groupOfUser);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
     private boolean dataToMilSec() {
         boolean isMilSec = false;
@@ -457,9 +480,32 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
         if (dataToMilSec()) {
             //Log.w("FROM", from);
             Log.w("TO", toId + "");
-            String uniqueID = UUID.randomUUID().toString();
-            Trip newTrip = new Trip(uniqueID,fromId, null, toId, null, departureTime, numberOfTrempists, userAuth.getUid(),tremps);
-            myRef.child("Trip").child(uniqueID).setValue(newTrip);
+            final String uniqueID = UUID.randomUUID().toString();
+            final Trip newTrip = new Trip(uniqueID,fromId,null,toId,null, departureTime, numberOfTrempists, userAuth.getUid(),null);
+            Query myGroup=myRef;
+            myGroup.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Group group=dataSnapshot.getValue(Group.class);
+                    List<Trip> trips=group.getTrips();
+                    if(trips!=null){
+                        myRef.child("trips").child(trips.size()+"").setValue(newTrip);
+                    }
+                    else{
+                        trips=new ArrayList<>();
+                        trips.add(newTrip);
+                        myRef.child("trips").setValue(trips);
+                    }
+                    Toast.makeText(CreateNewTripActivity.this,"You have just created a new Trip",Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(CreateNewTripActivity.this,MainActivity.class));
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
 
         }
     }

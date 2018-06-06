@@ -37,7 +37,9 @@ public class NotificationService extends Service {
     DatabaseReference myRef;
 
     List<Tremp> currentUserTremps=new ArrayList<>();
+    List<String> currentUserTrempsIndex=new ArrayList<>();
     List<Trip> currentUserTrips=new ArrayList<>();
+    List<String> currentUserTripsIndex=new ArrayList<>();
     User user;
 
     //we are going to use a handler to be able to run in our TimerTask
@@ -54,7 +56,7 @@ public class NotificationService extends Service {
         Log.e(TAG, "onStartCommand");
         super.onStartCommand(intent, flags, startId);
         setFirebaseVariables();
-        startTimer();
+
 
         return START_STICKY;
     }
@@ -106,7 +108,7 @@ public class NotificationService extends Service {
                 handler.post(new Runnable() {
                     public void run() {
 
-                        checkForMatchTrempToTrip();
+                        deleteTrempOrTrip();
 
                     }
                 });
@@ -134,16 +136,19 @@ public class NotificationService extends Service {
 
     private void checkForMatchTrempToTrip(){
 
-        final Query myUser=myRef.child("User").child(userAuth.getUid());
+        final Query myUser=myRef.child("users").orderByChild("userId").equalTo(userAuth.getUid());
 
         Log.w("PRINT QUERY",myUser+"");
 
         myUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.w("look for match", dataSnapshot.toString());
+                for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
 
-                user = dataSnapshot.getValue(User.class);
-                deleteTrempOrTrip();
+                }
+//                user = dataSnapshot.getValue(User.class);
+//                deleteTrempOrTrip();
 
 
 
@@ -159,9 +164,10 @@ public class NotificationService extends Service {
     private void hasMatch(){
         Log.w("has match","here");
         if (currentUserTremps!=null){
+            final int[] currentPosition = new int[1];
             for (final Tremp tremp : currentUserTremps) {
                 if (!tremp.isNotificationSent()){
-                    final Query allTrips = myRef.child("Trip").orderByChild("fromId").equalTo(tremp.getFromId());
+                    final Query allTrips = myRef.child("trips").orderByChild("fromId").equalTo(tremp.getFromId());
                     allTrips.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -169,11 +175,12 @@ public class NotificationService extends Service {
                                 Trip trip = singleSnapshot.getValue(Trip.class);
                                 if (trip.getToId().equals(tremp.getToId()) && !trip.getUserId().equals(userAuth.getUid())) {
                                     tremp.setNotificationSent(true);
-                                    myRef.child("Tremp").child(tremp.getTrempId()).setValue(tremp);
+                                    myRef.child("tremps").child(currentUserTrempsIndex.get(currentPosition[0])).setValue(tremp);
                                     sendNotification();
                                 }
 
                             }
+                            currentPosition[0]++;
                         }
 
                         @Override
@@ -189,7 +196,7 @@ public class NotificationService extends Service {
     }
 
     private void deleteTrempOrTrip(){
-        final Query myTremps=myRef.child("Tremp").orderByChild("userId").equalTo(userAuth.getUid());
+        final Query myTremps=myRef.child("tremps").orderByChild("userId").equalTo(userAuth.getUid());
 
         Log.w("PRINT QUERY",myTremps+"");
 
@@ -201,10 +208,12 @@ public class NotificationService extends Service {
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
                    Tremp tremp =singleSnapshot.getValue(Tremp.class);
                    if(tremp.getDepartureTime()+3600000*24<currentTime){
-                        myRef.child("Tremp").child(tremp.getTrempId()).removeValue();
+                        myRef.child("tremps").child(tremp.getTrempId()).removeValue();
                    }
                    else{
                        currentUserTremps.add(tremp);
+                       currentUserTrempsIndex.add(singleSnapshot.getKey());
+
                    }
                 }
             }
@@ -214,7 +223,7 @@ public class NotificationService extends Service {
             }
         });
 
-        final Query myTrips=myRef.child("Trip").orderByChild("userId").equalTo(userAuth.getUid());
+        final Query myTrips=myRef.child("trips").orderByChild("userId").equalTo(userAuth.getUid());
 
         Log.w("PRINT QUERY",myTrips+"");
 
@@ -226,10 +235,11 @@ public class NotificationService extends Service {
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
                     Trip trip =singleSnapshot.getValue(Trip.class);
                     if(trip.getDepartureTime()+3600000*24<currentTime){
-                        myRef.child("Trip").child(trip.getTripId()).removeValue();
+                        myRef.child("trips").child(trip.getTripId()).removeValue();
                     }
                     else{
                         currentUserTrips.add(trip);
+
                     }
                 }
                 hasMatch();
@@ -241,13 +251,36 @@ public class NotificationService extends Service {
         });
     }
 
-    private void setFirebaseVariables(){
-
+    private void setFirebaseVariables() {
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference();
         userAuth = FirebaseAuth.getInstance().getCurrentUser();
+        setMyRef();
     }
+    public void setMyRef() {
+        Query myUser=database.getReference().child("User").child(userAuth.getUid());
 
+        myUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                if(!dataSnapshot.getValue().getClass().equals(String.class)) {
+                    Log.w("notific","User is object user");
+                }
+                else {
+                    Log.w("setMyRef",dataSnapshot.toString());
+                    String groupOfUser=dataSnapshot.getValue(String.class);
+                    myRef=database.getReference().child("Group").child(groupOfUser);
+                    startTimer();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
 
 

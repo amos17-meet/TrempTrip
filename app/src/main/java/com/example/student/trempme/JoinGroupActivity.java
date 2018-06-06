@@ -17,14 +17,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class JoinGroupActivity extends AppCompatActivity implements View.OnClickListener {
 
-    EditText etGroupId,etFullName,etPhoneNumber;
-    Button btnJoinGroup;
+    EditText etGroupName,etFullName,etPhoneNumber;
+    Button btnJoinGroup, btnGoToNewGroup;
 
     FirebaseUser userAuth;
     FirebaseDatabase database;
     DatabaseReference myRef;
+
+    User myUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +37,10 @@ public class JoinGroupActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_join_group);
 
         setFirebaseVariables();
+        setMyUser();
+        setInputViews();
         setBtnJoinGroupListener();
+        setBtnGoToNewGroup();
     }
 
     private void setFirebaseVariables(){
@@ -46,42 +54,122 @@ public class JoinGroupActivity extends AppCompatActivity implements View.OnClick
         btnJoinGroup.setOnClickListener(this);
     }
 
+    public void setBtnGoToNewGroup() {
+        btnGoToNewGroup=findViewById(R.id.btnGoToNewGroup);
+        btnGoToNewGroup.setOnClickListener(this);
+    }
+
+    public void setInputViews(){
+        etGroupName=findViewById(R.id.etGroupName);
+        etFullName=findViewById(R.id.etFullName);
+        etPhoneNumber=findViewById(R.id.etPhoneNumber);
+    }
+
     @Override
     public void onClick(View view) {
         if(view==btnJoinGroup){
-            etFullName=findViewById(R.id.etFullName);
-            etGroupId=findViewById(R.id.etGroupId);
-            etPhoneNumber=findViewById(R.id.etPhoneNumber);
-            Query userQuery=myRef.child("User");
+            etGroupName=findViewById(R.id.etGroupName);
+            addUserToGroup(etGroupName.getText().toString());
+        }
 
-            Log.e("PRINT QUERY",userQuery+"");
+        if (view==btnGoToNewGroup){
+            Intent intent=new Intent(this,NewGroupActivity.class);
+            startActivityForResult(intent,0);
+        }
+    }
 
-            userQuery.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                        User user = singleSnapshot.getValue(User.class);
-                        if(user.getUserId().equals(userAuth.getUid())){
-                            user.setFullName(etFullName.getText().toString());
-                            user.setGroupId(etGroupId.getText().toString());
-                            user.setPhoneNumber(etPhoneNumber.getText().toString());
-                            myRef.child("User").child(singleSnapshot.getKey()).setValue(user);
-                            Intent intent=new Intent(JoinGroupActivity.this,MainActivity.class);
-                            startActivity(intent);
-                        }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==0){
+            if (resultCode==RESULT_OK){
+                etGroupName.setText(data.getStringExtra("groupName"));
+            }
+        }
+
+    }
+
+    private void addUserToGroup(String groupName){
+
+        Query allGroups=myRef.child("Group").orderByChild("groupName").equalTo(groupName);
+
+        allGroups.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.w("add User",dataSnapshot.toString());
+                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
+                    Group group=singleSnapshot.getValue(Group.class);
+                    Log.w("group name", group.getGroupName());
+                    List<User> usersGroup =group.getUsers();
+                    myUser.setGroupId(group.getGroupId());
+                    myUser.setFullName(etFullName.getText().toString());
+                    myUser.setPhoneNumber(etPhoneNumber.getText().toString());
+                    if(usersGroup!=null){
+                        myRef.child("Group").child(group.getGroupId()).child("users").child(usersGroup.size()+"").setValue(myUser);
+                        //User user=new User(userAuth.getUid(),group.getGroupId(),null,null,null,null,null,null);
+                        myRef.child("User").child(userAuth.getUid()).setValue(group.getGroupId());
+                        Intent intent =new Intent(JoinGroupActivity.this,MainActivity.class);
+                        startActivity(intent);
+                        finish();
+
+
+                    }
+                    else{
+                        List<User> newUsersGroup=new ArrayList<>();
+                        newUsersGroup.add(myUser);
+                        group.setUsers(newUsersGroup);
+                        Log.w("group id",group+"");
+                        //User user=new User(userAuth.getUid(),group.getGroupId(),null,null,null,null,null,null);
+                        myRef.child("Group").child(group.getGroupId()).setValue(group);
+                        myRef.child("User").child(userAuth.getUid()).setValue(group.getGroupId());
+                        Intent intent =new Intent(JoinGroupActivity.this,MainActivity.class);
+                        startActivity(intent);
+                        finish();
+
 
                     }
 
 
 
+
                 }
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Log.e("TAG", "onCancelled", databaseError.toException());
-                }
-            });
 
 
-        }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+    }
+
+    public void setMyUser(){
+        final Query userQuery=myRef.child("User").child(userAuth.getUid());
+
+        userQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.getValue().getClass().equals(String.class)) {
+                    myUser=dataSnapshot.getValue(User.class);
+                }
+                else {
+                    startActivity(new Intent(JoinGroupActivity.this,MainActivity.class));
+                }
+
+
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

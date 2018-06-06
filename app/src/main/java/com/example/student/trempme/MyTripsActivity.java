@@ -47,14 +47,33 @@ public class MyTripsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_trips);
         setFirebaseVariables();
         setGoogleAPIVar();
-        setMyTrips();
+
     }
 
-    private void setFirebaseVariables(){
+    private void setFirebaseVariables() {
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference();
         userAuth = FirebaseAuth.getInstance().getCurrentUser();
+        setMyRef();
     }
+    public void setMyRef() {
+        Query myUser=database.getReference().child("User").child(userAuth.getUid());
+
+        myUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.w("setMyRef",dataSnapshot.toString());
+                String groupOfUser=dataSnapshot.getValue(String.class);
+                myRef=database.getReference().child("Group").child(groupOfUser);
+                setMyTrips();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     private void setGoogleAPIVar(){
         mGeoDataClient = Places.getGeoDataClient(this, null);
         mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
@@ -70,7 +89,7 @@ public class MyTripsActivity extends AppCompatActivity {
 
     public void setMyTrips(){
         Log.w("set my trips","here");
-        Query allMyTrips=myRef.child("Trip").orderByChild("userId").equalTo(userAuth.getUid());
+        Query allMyTrips=myRef.child("trips").orderByChild("userId").equalTo(userAuth.getUid());
         Log.w("set my trips",allMyTrips.toString());
         allMyTrips.addValueEventListener(new ValueEventListener() {
             @Override

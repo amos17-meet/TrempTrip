@@ -46,14 +46,33 @@ public class MyTrempsRequestsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_tremps_requests);
         setFirebaseVariables();
         setGoogleAPIVar();
-        setMyTremps();
+
     }
 
-    private void setFirebaseVariables(){
+    private void setFirebaseVariables() {
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference();
         userAuth = FirebaseAuth.getInstance().getCurrentUser();
+        setMyRef();
     }
+    public void setMyRef() {
+        Query myUser=database.getReference().child("User").child(userAuth.getUid());
+
+        myUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.w("setMyRef",dataSnapshot.toString());
+                String groupOfUser=dataSnapshot.getValue(String.class);
+                myRef=database.getReference().child("Group").child(groupOfUser);
+                setMyTremps();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     private void setGoogleAPIVar(){
         mGeoDataClient = Places.getGeoDataClient(this, null);
         mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
@@ -71,7 +90,7 @@ public class MyTrempsRequestsActivity extends AppCompatActivity {
 
     public void setMyTremps(){
         Log.w("set my tremps","here");
-        Query allMyTremps=myRef.child("Tremp").orderByChild("userId").equalTo(userAuth.getUid());
+        Query allMyTremps=myRef.child("tremps").orderByChild("userId").equalTo(userAuth.getUid());
         Log.w("set my tremps",allMyTremps.toString());
         allMyTremps.addValueEventListener(new ValueEventListener() {
             @Override

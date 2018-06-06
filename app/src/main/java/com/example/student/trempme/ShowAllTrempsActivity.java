@@ -50,7 +50,7 @@ public class ShowAllTrempsActivity extends AppCompatActivity {
         Log.w("allTremps","here");
         setFirebaseVariables();
         setGoogleAPIVar();
-        setTrempList();
+
 
 
     }
@@ -67,7 +67,7 @@ public class ShowAllTrempsActivity extends AppCompatActivity {
     }
 
     public void setTrempList(){
-        Query allTremps=myRef.child("Tremp").orderByChild("departureTime");
+        Query allTremps=myRef.child("tremps").orderByChild("departureTime");
 
         allTremps.addValueEventListener(new ValueEventListener() {
             @Override
@@ -108,10 +108,28 @@ public class ShowAllTrempsActivity extends AppCompatActivity {
     }
 
 
-    private void setFirebaseVariables(){
+    private void setFirebaseVariables() {
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference();
         userAuth = FirebaseAuth.getInstance().getCurrentUser();
+        setMyRef();
+    }
+    public void setMyRef() {
+        Query myUser=database.getReference().child("User").child(userAuth.getUid());
+
+        myUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.w("setMyRef",dataSnapshot.toString());
+                String groupOfUser=dataSnapshot.getValue(String.class);
+                myRef=database.getReference().child("Group").child(groupOfUser);
+                setTrempList();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void setGoogleAPIVar(){
