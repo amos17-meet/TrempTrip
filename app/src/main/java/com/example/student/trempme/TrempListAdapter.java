@@ -15,13 +15,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class TrempListAdapter extends ArrayAdapter<Tremp> {
+public class TrempListAdapter extends ArrayAdapter<TrempListObject> {
     Context context;
-    List<Tremp> tremps;
+    List<TrempListObject> tremps;
 
 
 
-    public TrempListAdapter(Context context, int resource, int textViewResourceId, List<Tremp> tremps) {
+    public TrempListAdapter(Context context, int resource, int textViewResourceId, List<TrempListObject> tremps) {
         super(context, resource, textViewResourceId, tremps);
         this.context=context;
         this.tremps =tremps;
@@ -42,10 +42,12 @@ public class TrempListAdapter extends ArrayAdapter<Tremp> {
         TextView tvDate = (TextView) view.findViewById(R.id.tvDate);
         TextView tvFullName=view.findViewById(R.id.tvFullName);
         TextView tvPhoneNumber=view.findViewById(R.id.tvPhoneNumber);
-        Tremp tremp = tremps.get(position);
+        TrempListObject tremp = tremps.get(position);
         //Log.w("place position",places.get(position*2)+""+places.get((position*2)+1));
         tvFrom.setText(tremp.getFromName());
         tvTo.setText(tremp.getToName());
+        tvFullName.setText(tremp.getUserName());
+        tvPhoneNumber.setText(tremp.getUserPhoneNumber());
 
 
         long ms = tremp.getDepartureTime();

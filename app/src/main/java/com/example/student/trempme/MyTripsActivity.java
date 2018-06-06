@@ -28,7 +28,7 @@ import java.util.List;
 public class MyTripsActivity extends AppCompatActivity {
 
     ListView lvMyTrips;
-    List<Trip> myTrips=new ArrayList<>();
+    List<TripListObject> myTrips=new ArrayList<>();
     List<Place> placeList=new ArrayList<>();
     TripListAdapter tripListAdapter;
 
@@ -99,7 +99,7 @@ public class MyTripsActivity extends AppCompatActivity {
                     Trip trip=singleSnapshot.getValue(Trip.class);
                     Log.w("event listener",trip.getUserId());
                     Log.w("event listener","added");
-                    myTrips.add(trip);
+                    myTrips.add(new TripListObject(trip,null,null,null,null));
                 }
                 setPlaceList();
             }
@@ -174,18 +174,38 @@ public class MyTripsActivity extends AppCompatActivity {
         Log.w("can cuntinue", sizeOfPlaceList+" "+myTrips.size());
         if(sizeOfPlaceList==myTrips.size()){
             Log.w("can cuntinue", "yes");
-            addPlacesNamesToTrempObject();
+            completeTripListObject();
         }
     }
 
-    private void addPlacesNamesToTrempObject(){
-        int i=0;
-        for(Trip trip : myTrips){
-            trip.setFromName(placeList.get(i*2).getName().toString());
-            trip.setToName(placeList.get((i*2)+1).getName().toString());
-            i++;
+    private void completeTripListObject(){
+        int i = 0;
+        for(final TripListObject trip:myTrips){
+            trip.setFromName(placeList.get(i *2).getName().toString());
+            trip.setToName(placeList.get((i *2)+1).getName().toString());
+            Query userQuery=myRef.child("users").orderByChild("userId").equalTo(userAuth.getUid());
+            userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for(DataSnapshot singleSnapshot: dataSnapshot.getChildren()){
+                        User user=singleSnapshot.getValue(User.class);
+                        trip.setUserName(user.getFullName());
+                        trip.setUserPhoneNumber(user.getPhoneNumber());
+                    }
+                    setLvMyTrips();
+
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
         }
-        setLvMyTrips();
+        i++;
+
     }
 
 

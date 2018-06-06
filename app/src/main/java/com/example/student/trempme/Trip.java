@@ -10,24 +10,20 @@ import java.util.List;
 public class Trip {
     @NonNull private String tripId;
     private String fromId;
-    private String fromName;
     private String toId;
-    private String toName;
     private long departureTime;
     private int numOfAvailableSits;
-    private List<Tremp> Tremps;
+    private List<Tremp> tremps;
     private String userId;
 
-    public Trip(String tripId, String fromId,String fromName,String toId,String toName, long departureTime, int numOfAvailableSits,String userId, List<Tremp> Tremps ){
+    public Trip(String tripId, String fromId,String toId, long departureTime, int numOfAvailableSits,String userId, List<Tremp> tremps ){
         this.fromId=fromId;
-        this.fromName=fromName;
         this.toId=toId;
-        this.toName=toName;
         this.numOfAvailableSits=numOfAvailableSits;
         this.departureTime=departureTime;
         this.userId=userId;
-        this.Tremps=Tremps;
         this.tripId=tripId;
+        this.tremps=tremps;
     }
 
     public Trip(){
@@ -50,13 +46,6 @@ public class Trip {
         this.fromId = fromId;
     }
 
-    public String getFromName() {
-        return fromName;
-    }
-
-    public void setFromName(String fromName) {
-        this.fromName = fromName;
-    }
 
     public String getToId() {
         return toId;
@@ -64,14 +53,6 @@ public class Trip {
 
     public void setToId(String toId) {
         this.toId = toId;
-    }
-
-    public String getToName() {
-        return toName;
-    }
-
-    public void setToName(String toName) {
-        this.toName = toName;
     }
 
     public long getDepartureTime() {
@@ -91,11 +72,11 @@ public class Trip {
     }
 
     public List<Tremp> getTremps() {
-        return Tremps;
+        return tremps;
     }
 
     public void setTremps(List<Tremp> tremps) {
-        Tremps = tremps;
+        this.tremps = tremps;
     }
 
     public String getUserId() {

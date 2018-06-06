@@ -19,19 +19,15 @@ public class Tremp {
 
     @NonNull private String trempId;
     private String fromId;
-    private String fromName;
     private String toId;
-    private String toName;
     private long departureTime;
     private int numOfAvailableSits;
     private String userId;
     private boolean notificationSent;
 
-    public Tremp( String trempId,String fromId,String fromName,String toId,String toName,long departureTime, int numOfAvailableSits,String userId ){
+    public Tremp( String trempId,String fromId,String toId,long departureTime, int numOfAvailableSits,String userId ){
         this.fromId=fromId;
-        this.fromName=fromName;
         this.toId=toId;
-        this.toName=toName;
         this.numOfAvailableSits=numOfAvailableSits;
         this.departureTime=departureTime;
         this.userId=userId;
@@ -59,28 +55,12 @@ public class Tremp {
         this.fromId = fromId;
     }
 
-    public String getFromName() {
-        return fromName;
-    }
-
-    public void setFromName(String fromName) {
-        this.fromName = fromName;
-    }
-
     public String getToId() {
         return toId;
     }
 
     public void setToId(String toId) {
         this.toId = toId;
-    }
-
-    public String getToName() {
-        return toName;
-    }
-
-    public void setToName(String toName) {
-        this.toName = toName;
     }
 
     public long getDepartureTime() {

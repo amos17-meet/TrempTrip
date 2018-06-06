@@ -491,7 +491,7 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
             //Log.w("FROM", from);
             Log.w("TO", toId + "");
             final String uniqueID = UUID.randomUUID().toString();
-            final Tremp newTremp = new Tremp(uniqueID,fromId,null,toId,null, departureTime, numberOfTrempists, userAuth.getUid());
+            final Tremp newTremp = new Tremp(uniqueID,fromId,toId, departureTime, numberOfTrempists, userAuth.getUid());
             Query myGroup=myRef;
             myGroup.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

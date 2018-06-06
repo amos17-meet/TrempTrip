@@ -27,7 +27,7 @@ import java.util.List;
 
 public class MyTrempsRequestsActivity extends AppCompatActivity {
     ListView lvMyTrempsRequests;
-    List<Tremp> myTremps=new ArrayList<>();
+    List<TrempListObject> myTremps=new ArrayList<>();
     List<Place> placeList=new ArrayList<>();
     TrempListAdapter trempListAdapter;
 
@@ -101,7 +101,7 @@ public class MyTrempsRequestsActivity extends AppCompatActivity {
                     Tremp tremp=singleSnapshot.getValue(Tremp.class);
                     Log.w("event listener",tremp.getUserId());
                     Log.w("event listener","added");
-                    myTremps.add(tremp);
+                    myTremps.add(new TrempListObject(tremp,null,null,null,null));
                 }
                 setPlaceList();
             }
@@ -175,18 +175,38 @@ public class MyTrempsRequestsActivity extends AppCompatActivity {
         Log.w("can cuntinue", sizeOfPlaceList+" "+myTremps.size());
         if(sizeOfPlaceList==myTremps.size()){
             Log.w("can cuntinue", "yes");
-            addPlacesNamesToTrempObject();
+            completeTrempListObject();
         }
     }
 
-    private void addPlacesNamesToTrempObject(){
-        int i=0;
-        for(Tremp tremp:myTremps){
-            tremp.setFromName(placeList.get(i*2).getName().toString());
-            tremp.setToName(placeList.get((i*2)+1).getName().toString());
-            i++;
+    private void completeTrempListObject(){
+        int i = 0;
+        for(final TrempListObject tremp:myTremps){
+            tremp.setFromName(placeList.get(i *2).getName().toString());
+            tremp.setToName(placeList.get((i *2)+1).getName().toString());
+            Query userQuery=myRef.child("users").orderByChild("userId").equalTo(userAuth.getUid());
+            userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for(DataSnapshot singleSnapshot: dataSnapshot.getChildren()){
+                        User user=singleSnapshot.getValue(User.class);
+                        tremp.setUserName(user.getFullName());
+                        tremp.setUserPhoneNumber(user.getPhoneNumber());
+                    }
+                    setLvMyTrempsRequests();
+
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
         }
-        setLvMyTrempsRequests();
+        i++;
+
     }
 
 

@@ -29,7 +29,7 @@ public class ShowAllTripsActivity extends AppCompatActivity {
 
     ListView lvTripList;
 
-    List<Trip> tripList=new ArrayList<>();
+    List<TripListObject> tripList=new ArrayList<>();
     List<Place> placeList=new ArrayList<Place>();
     TripListAdapter tripListAdapter;
     Trip trip;
@@ -70,7 +70,7 @@ public class ShowAllTripsActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
                     trip = singleSnapshot.getValue(Trip.class);
-                    tripList.add(trip);
+                    tripList.add(new TripListObject(trip,null,null,null,null));
 
                     //Log.w("event listener",trip.getFromId()+"");
 
@@ -181,17 +181,39 @@ public class ShowAllTripsActivity extends AppCompatActivity {
         Log.w("can cuntinue", sizeOfPlaceList+" "+tripList.size());
         if(sizeOfPlaceList==tripList.size()){
             Log.w("can cuntinue", "yes");
-            addPlacesNamesToTripObject();
+            completeTripListObject();
         }
     }
 
-    private void addPlacesNamesToTripObject(){
-        int i=0;
-        for(Trip trip:tripList){
-            trip.setFromName(placeList.get(i*2).getName().toString());
-            trip.setToName(placeList.get((i*2)+1).getName().toString());
-            i++;
+    private void completeTripListObject(){
+        int i = 0;
+        for(final TripListObject trip:tripList){
+            trip.setFromName(placeList.get(i *2).getName().toString());
+            trip.setToName(placeList.get((i *2)+1).getName().toString());
+            Query userQuery=myRef.child("users").orderByChild("userId").equalTo(userAuth.getUid());
+            userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for(DataSnapshot singleSnapshot: dataSnapshot.getChildren()){
+                        User user=singleSnapshot.getValue(User.class);
+                        trip.setUserName(user.getFullName());
+                        trip.setUserPhoneNumber(user.getPhoneNumber());
+                    }
+                    setLvTripList();
+
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
         }
-        setLvTripList();
+        i++;
+
     }
+
+
 }

@@ -29,7 +29,7 @@ import java.util.Stack;
 public class ShowAllTrempsActivity extends AppCompatActivity {
     ListView lvTrempList;
 
-    List<Tremp> trempList=new ArrayList<>();
+    List<TrempListObject> trempList=new ArrayList<>();
     List<Place> placeList=new ArrayList<>();
     TrempListAdapter trempListAdapter;
     Tremp tremp;
@@ -75,7 +75,7 @@ public class ShowAllTrempsActivity extends AppCompatActivity {
                 for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
                     tremp = singleSnapshot.getValue(Tremp.class);
                     Log.w("event listener",tremp.getTrempId()+"");
-                    trempList.add(tremp);
+                    trempList.add(new TrempListObject(tremp,null,null,null,null));
 
                     Log.w("event listener",tremp.getFromId()+"");
 
@@ -98,6 +98,8 @@ public class ShowAllTrempsActivity extends AppCompatActivity {
 
 
     }
+
+
 
     private void setPlaceList(){
         Log.w("PlaceList","here");
@@ -190,17 +192,39 @@ public class ShowAllTrempsActivity extends AppCompatActivity {
         Log.w("can cuntinue", sizeOfPlaceList+" "+trempList.size());
         if(sizeOfPlaceList==trempList.size()){
             Log.w("can cuntinue", "yes");
-            addPlacesNamesToTrempObject();
+            completeTrempListObject();
         }
     }
 
-    private void addPlacesNamesToTrempObject(){
-        int i=0;
-        for(Tremp tremp:trempList){
-            tremp.setFromName(placeList.get(i*2).getName().toString());
-            tremp.setToName(placeList.get((i*2)+1).getName().toString());
-            i++;
+    private void completeTrempListObject(){
+        int i = 0;
+        for(final TrempListObject tremp:trempList){
+            tremp.setFromName(placeList.get(i *2).getName().toString());
+            tremp.setToName(placeList.get((i *2)+1).getName().toString());
+            Query userQuery=myRef.child("users").orderByChild("userId").equalTo(userAuth.getUid());
+            userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for(DataSnapshot singleSnapshot: dataSnapshot.getChildren()){
+                        User user=singleSnapshot.getValue(User.class);
+                        tremp.setUserName(user.getFullName());
+                        tremp.setUserPhoneNumber(user.getPhoneNumber());
+                    }
+                    setLvTrempList();
+
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
         }
-        setLvTrempList();
+        i++;
+
     }
+
+
 }

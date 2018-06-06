@@ -481,7 +481,7 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
             //Log.w("FROM", from);
             Log.w("TO", toId + "");
             final String uniqueID = UUID.randomUUID().toString();
-            final Trip newTrip = new Trip(uniqueID,fromId,null,toId,null, departureTime, numberOfTrempists, userAuth.getUid(),null);
+            final Trip newTrip = new Trip(uniqueID,fromId,toId, departureTime, numberOfTrempists, userAuth.getUid(),null);
             Query myGroup=myRef;
             myGroup.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

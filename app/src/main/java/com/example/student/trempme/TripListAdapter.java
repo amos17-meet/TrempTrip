@@ -15,12 +15,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class TripListAdapter extends ArrayAdapter<Trip> {
+public class TripListAdapter extends ArrayAdapter<TripListObject> {
     Context context;
-    List<Trip> trips;
+    List<TripListObject> trips;
 
 
-    public TripListAdapter(Context context, int resource, int textViewResourceId, List<Trip> trips) {
+    public TripListAdapter(Context context, int resource, int textViewResourceId, List<TripListObject> trips) {
         super(context, resource, textViewResourceId, trips);
         this.context=context;
         this.trips =trips;
@@ -37,9 +37,14 @@ public class TripListAdapter extends ArrayAdapter<Trip> {
         TextView tvTo = (TextView) view.findViewById(R.id.tvTo);
         TextView tvTime = (TextView) view.findViewById(R.id.tvTime);
         TextView tvDate = (TextView) view.findViewById(R.id.tvDate);
-        Trip trip = trips.get(position);
+        TextView tvFullName=view.findViewById(R.id.tvFullName);
+        TextView tvPhoneNumber=view.findViewById(R.id.tvPhoneNumber);
+        TripListObject trip = trips.get(position);
         tvFrom.setText(trip.getFromName());
         tvTo.setText(trip.getToName());
+        tvFullName.setText(trip.getUserName());
+        tvPhoneNumber.setText(trip.getUserPhoneNumber());
+
         long ms = trip.getDepartureTime();
         Date date = new Date(ms);
         SimpleDateFormat dateformat = new SimpleDateFormat("HH:mm");
