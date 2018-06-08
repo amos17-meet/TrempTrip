@@ -55,28 +55,34 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         if(view==btnSignIn) {
             etEmail = findViewById(R.id.etEmail);
             etPassword=findViewById(R.id.etPassword);
-            auth=FirebaseAuth.getInstance();
-            auth.signInWithEmailAndPassword(etEmail.getText().toString(), etPassword.getText().toString())
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                Log.d("TAG", "signInWithEmail:success");
+            if(etEmail.getText().toString().equals("")||etPassword.getText().toString().equals("")){
+                Toast.makeText(this,"some details are missing",Toast.LENGTH_LONG).show();
+            }
+            else {
+                auth=FirebaseAuth.getInstance();
+                auth.signInWithEmailAndPassword(etEmail.getText().toString(), etPassword.getText().toString())
+                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Log.d("TAG", "signInWithEmail:success");
 
-                                Intent intent=new Intent(SignInActivity.this,MainActivity.class);
-                                startActivity(intent);
+                                    Intent intent=new Intent(SignInActivity.this,MainActivity.class);
+                                    startActivity(intent);
 
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Log.w("TAG", "signInWithEmail:failure", task.getException());
-                                Toast.makeText(SignInActivity.this, "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.w("TAG", "signInWithEmail:failure", task.getException());
+                                    Toast.makeText(SignInActivity.this, "Authentication failed.",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+
+                                // ...
                             }
+                        });
+            }
 
-                            // ...
-                        }
-                    });
 
         }
 

@@ -424,7 +424,7 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
                 chosenYear = year;
                 chosenMonth = month + 1;
                 chosenDayOfMonth = dayOfMonth;
-                tvDate.setText(dayOfMonth + "," + chosenMonth + "," + year);
+                tvDate.setText(dayOfMonth + "/" + chosenMonth + "/" + year);
 
             }
         };
@@ -480,32 +480,38 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
         if (dataToMilSec()) {
             //Log.w("FROM", from);
             Log.w("TO", toId + "");
-            final String uniqueID = UUID.randomUUID().toString();
-            final Trip newTrip = new Trip(uniqueID,fromId,toId, departureTime, numberOfTrempists, userAuth.getUid(),null);
-            Query myGroup=myRef;
-            myGroup.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    Group group=dataSnapshot.getValue(Group.class);
-                    List<Trip> trips=group.getTrips();
-                    if(trips!=null){
-                        myRef.child("trips").child(trips.size()+"").setValue(newTrip);
+            if(fromId==null||toId==null){
+                Toast.makeText(this,"some details are missing",Toast.LENGTH_LONG).show();
+            }
+            else{
+                final String uniqueID = UUID.randomUUID().toString();
+                final Trip newTrip = new Trip(uniqueID,fromId,toId, departureTime, numberOfTrempists, userAuth.getUid(),null);
+                Query myGroup=myRef;
+                myGroup.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Group group=dataSnapshot.getValue(Group.class);
+                        List<Trip> trips=group.getTrips();
+                        if(trips!=null){
+                            myRef.child("trips").child(trips.size()+"").setValue(newTrip);
+                        }
+                        else{
+                            trips=new ArrayList<>();
+                            trips.add(newTrip);
+                            myRef.child("trips").setValue(trips);
+                        }
+                        Toast.makeText(CreateNewTripActivity.this,"You have just created a new Trip",Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(CreateNewTripActivity.this,MainActivity.class));
+
                     }
-                    else{
-                        trips=new ArrayList<>();
-                        trips.add(newTrip);
-                        myRef.child("trips").setValue(trips);
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
                     }
-                    Toast.makeText(CreateNewTripActivity.this,"You have just created a new Trip",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(CreateNewTripActivity.this,MainActivity.class));
+                });
 
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+            }
 
         }
     }

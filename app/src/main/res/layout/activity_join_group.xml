@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="30dp"
+    android:padding="10dp"
     android:gravity="center"
     tools:context=".JoinGroupActivity">
 
@@ -22,21 +22,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Full Name"
-        android:textSize="25sp"/>
+        android:textSize="25sp"
+        android:imeOptions="actionNext"/>
 
     <EditText
         android:id="@+id/etPhoneNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="You'r Phone Number"
-        android:textSize="25sp"/>
+        android:textSize="25sp"
+        android:inputType="phone"
+        android:imeOptions="actionNext"/>
 
     <EditText
         android:id="@+id/etGroupName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Group Name"
-        android:textSize="25sp"/>
+        android:textSize="25sp"
+        android:imeOptions="actionDone"
+        />
 
     <Button
         android:layout_marginTop="20dp"

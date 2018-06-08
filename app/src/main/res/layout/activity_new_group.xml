@@ -25,7 +25,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter Here"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:imeOptions="actionDone"/>
 
         </TableRow>
     </TableLayout>

@@ -15,9 +15,11 @@ public class NetworkChangedReceiver extends BroadcastReceiver{
         try
         {
             if (isOnline(context)) {
-                Log.w("receive", "Online Connect Intenet ");
+                Log.w("receive", "Online Connect Internet ");
+
             } else {
                 Log.w("receive", "Connectivity Failure !!! ");
+                Toast.makeText(context.getApplicationContext(),"No Internet Connection", Toast.LENGTH_LONG).show();
                 hasConnection=false;
             }
         } catch (NullPointerException e) {
@@ -37,11 +39,7 @@ public class NetworkChangedReceiver extends BroadcastReceiver{
         }
     }
 
-    public boolean isHasConnection(){
-        return hasConnection;
-    }
 
-    
 
 
 

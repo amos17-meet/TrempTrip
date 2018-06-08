@@ -435,7 +435,7 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
                 chosenYear = year;
                 chosenMonth = month+1;
                 chosenDayOfMonth = dayOfMonth;
-                tvDate.setText(chosenDayOfMonth + "," + chosenMonth + "," + chosenYear);
+                tvDate.setText(chosenDayOfMonth + "/" + chosenMonth + "/" + chosenYear);
 
             }
         };
@@ -491,31 +491,35 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
             //Log.w("FROM", from);
             Log.w("TO", toId + "");
             final String uniqueID = UUID.randomUUID().toString();
-            final Tremp newTremp = new Tremp(uniqueID,fromId,toId, departureTime, numberOfTrempists, userAuth.getUid());
-            Query myGroup=myRef;
-            myGroup.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    Group group=dataSnapshot.getValue(Group.class);
-                    List<Tremp> tremps=group.getTremps();
-                    if(tremps!=null){
-                        myRef.child("tremps").child(tremps.size()+"").setValue(newTremp);
+            if(fromId==null||toId==null){
+                Toast.makeText(this,"some details are missing",Toast.LENGTH_LONG).show();
+            }
+            else{
+                final Tremp newTremp = new Tremp(uniqueID,fromId,toId, departureTime, numberOfTrempists, userAuth.getUid());
+                Query myGroup=myRef;
+                myGroup.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Group group=dataSnapshot.getValue(Group.class);
+                        List<Tremp> tremps=group.getTremps();
+                        if(tremps!=null){
+                            myRef.child("tremps").child(tremps.size()+"").setValue(newTremp);
+                        }
+                        else{
+                            tremps=new ArrayList<>();
+                            tremps.add(newTremp);
+                            myRef.child("tremps").setValue(tremps);
+                        }
+                        Toast.makeText(AskForTrempActivity.this,"You have just asked for new Tremp",Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(AskForTrempActivity.this,MainActivity.class));
                     }
-                    else{
-                        tremps=new ArrayList<>();
-                        tremps.add(newTremp);
-                        myRef.child("tremps").setValue(tremps);
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
                     }
-                    Toast.makeText(AskForTrempActivity.this,"You have just asked for new Tremp",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(AskForTrempActivity.this,MainActivity.class));
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
+                });
+            }
         }
     }
 

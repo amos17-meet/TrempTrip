@@ -47,44 +47,55 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void createAuthAccount(){
-        mAuth.createUserWithEmailAndPassword(etEmail.getText().toString(), etPassword.getText().toString())
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("TAG", "createUserWithEmail:success");
-                            userAuth = mAuth.getCurrentUser();
-                            if(createUserAccount()) {
-                                signIn();
+        if(etEmail.getText().toString().equals("")||etPassword.getText().toString().equals("")){
+            Toast.makeText(this,"some details are missing",Toast.LENGTH_LONG).show();
+        }
+        else{
+            mAuth.createUserWithEmailAndPassword(etEmail.getText().toString(), etPassword.getText().toString())
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d("TAG", "createUserWithEmail:success");
+                                userAuth = mAuth.getCurrentUser();
+                                if(createUserAccount()) {
+                                    signIn();
+                                }
+
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w("TAG", "createUserWithEmail:failure", task.getException());
+                                Toast.makeText(SignUpActivity.this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+
+
                             }
 
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w("TAG", "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(SignUpActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-
-
+                            // ...
                         }
 
-                        // ...
-                    }
-
-                });
+                    });
+        }
     }
 
     private boolean createUserAccount(){
-        User user=new User(userAuth.getUid(),"",
-                etEmail.getText().toString().toLowerCase(),
-                etPassword.getText().toString(),
-                "",
-                "",
-                null,
-                null
-                );
+        if(etEmail.getText().toString().equals("")||etPassword.getText().toString().equals("")){
+            Toast.makeText(this,"some details are missing",Toast.LENGTH_LONG).show();
+            return false;
+        }else{
+            User user=new User(userAuth.getUid(),"",
+                    etEmail.getText().toString().toLowerCase(),
+                    etPassword.getText().toString(),
+                    "",
+                    "",
+                    null,
+                    null
+            );
 
-        myRef.child("User").child(userAuth.getUid()).setValue(user);
+            myRef.child("User").child(userAuth.getUid()).setValue(user);
+
+        }
         return true;
     }
 

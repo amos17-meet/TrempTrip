@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -90,61 +91,59 @@ public class JoinGroupActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void addUserToGroup(String groupName){
+        if(etFullName.getText().toString().equals("")||
+                etPhoneNumber.getText().toString().equals("")||
+                etGroupName.getText().toString().equals("")){
+            Toast.makeText(this,"some details are missing",Toast.LENGTH_LONG).show();
+        }
+        else{
+            Query allGroups=myRef.child("Group").orderByChild("groupName").equalTo(groupName);
 
-        Query allGroups=myRef.child("Group").orderByChild("groupName").equalTo(groupName);
-
-        allGroups.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.w("add User",dataSnapshot.toString());
-                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
-                    Group group=singleSnapshot.getValue(Group.class);
-                    Log.w("group name", group.getGroupName());
-                    List<User> usersGroup =group.getUsers();
-                    myUser.setGroupId(group.getGroupId());
-                    myUser.setFullName(etFullName.getText().toString());
-                    myUser.setPhoneNumber(etPhoneNumber.getText().toString());
-                    if(usersGroup!=null){
-                        myRef.child("Group").child(group.getGroupId()).child("users").child(usersGroup.size()+"").setValue(myUser);
-                        //User user=new User(userAuth.getUid(),group.getGroupId(),null,null,null,null,null,null);
-                        myRef.child("User").child(userAuth.getUid()).setValue(group.getGroupId());
-                        Intent intent =new Intent(JoinGroupActivity.this,MainActivity.class);
-                        startActivity(intent);
-                        finish();
-
-
+            allGroups.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Log.w("add User",dataSnapshot.toString());
+                    if(dataSnapshot.getValue()==null){
+                        Toast.makeText(JoinGroupActivity.this,"There is not such a group",Toast.LENGTH_LONG).show();
                     }
                     else{
-                        List<User> newUsersGroup=new ArrayList<>();
-                        newUsersGroup.add(myUser);
-                        group.setUsers(newUsersGroup);
-                        Log.w("group id",group+"");
-                        //User user=new User(userAuth.getUid(),group.getGroupId(),null,null,null,null,null,null);
-                        myRef.child("Group").child(group.getGroupId()).setValue(group);
-                        myRef.child("User").child(userAuth.getUid()).setValue(group.getGroupId());
-                        Intent intent =new Intent(JoinGroupActivity.this,MainActivity.class);
-                        startActivity(intent);
-                        finish();
-
-
+                        for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
+                            Group group=singleSnapshot.getValue(Group.class);
+                            Log.w("group name", group.getGroupName());
+                            List<User> usersGroup =group.getUsers();
+                            myUser.setGroupId(group.getGroupId());
+                            myUser.setFullName(etFullName.getText().toString());
+                            myUser.setPhoneNumber(etPhoneNumber.getText().toString());
+                            if(usersGroup!=null){
+                                myRef.child("Group").child(group.getGroupId()).child("users").child(usersGroup.size()+"").setValue(myUser);
+                                //User user=new User(userAuth.getUid(),group.getGroupId(),null,null,null,null,null,null);
+                                myRef.child("User").child(userAuth.getUid()).setValue(group.getGroupId());
+                                Intent intent =new Intent(JoinGroupActivity.this,MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                            else{
+                                List<User> newUsersGroup=new ArrayList<>();
+                                newUsersGroup.add(myUser);
+                                group.setUsers(newUsersGroup);
+                                Log.w("group id",group+"");
+                                //User user=new User(userAuth.getUid(),group.getGroupId(),null,null,null,null,null,null);
+                                myRef.child("Group").child(group.getGroupId()).setValue(group);
+                                myRef.child("User").child(userAuth.getUid()).setValue(group.getGroupId());
+                                Intent intent =new Intent(JoinGroupActivity.this,MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
                     }
-
-
-
-
                 }
 
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
+                }
+            });
+        }
 
     }
 
