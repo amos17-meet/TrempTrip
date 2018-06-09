@@ -47,6 +47,8 @@ public class MyTrempsRequestsActivity extends AppCompatActivity {
         setFirebaseVariables();
         setGoogleAPIVar();
 
+        MainActivity.setDefaultLanguage(this,"en_US ");
+
     }
 
     private void setFirebaseVariables() {

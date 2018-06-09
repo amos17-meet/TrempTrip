@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -33,6 +34,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity{
     FirebaseUser userAuth;
     FirebaseDatabase database;
@@ -43,6 +46,15 @@ public class MainActivity extends AppCompatActivity{
 
     private BroadcastReceiver mNetworkReceiver;
 
+
+    public static void setDefaultLanguage(Context context, String lang) {
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        context.getResources().updateConfiguration(config,
+                context.getResources().getDisplayMetrics());
+    }
 
 
     @Override
@@ -55,6 +67,7 @@ public class MainActivity extends AppCompatActivity{
         mNetworkReceiver = new NetworkChangedReceiver();
         registerNetworkBroadcastForNougat();
         SetIntentButtons();
+        setDefaultLanguage(this,"en_US ");
 
 
 

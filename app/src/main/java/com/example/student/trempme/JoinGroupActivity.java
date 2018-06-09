@@ -42,6 +42,8 @@ public class JoinGroupActivity extends AppCompatActivity implements View.OnClick
         setInputViews();
         setBtnJoinGroupListener();
         setBtnGoToNewGroup();
+
+        MainActivity.setDefaultLanguage(this,"en_US ");
     }
 
     private void setFirebaseVariables(){

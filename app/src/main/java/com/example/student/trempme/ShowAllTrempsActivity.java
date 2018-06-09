@@ -50,7 +50,7 @@ public class ShowAllTrempsActivity extends AppCompatActivity {
         Log.w("allTremps","here");
         setFirebaseVariables();
         setGoogleAPIVar();
-
+        MainActivity.setDefaultLanguage(this,"en_US ");
 
 
     }

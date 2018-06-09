@@ -38,6 +38,8 @@ public class NewGroupActivity extends AppCompatActivity {
 
         setFirebaseVariables();
         setViews();
+
+        MainActivity.setDefaultLanguage(this,"en_US ");
     }
 
     private void setFirebaseVariables() {

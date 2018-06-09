@@ -49,7 +49,7 @@ public class ShowAllTripsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_all_trips);
         setFirebaseVariables();
         setGoogleAPIVar();
-
+        MainActivity.setDefaultLanguage(this,"en_US ");
     }
 
 

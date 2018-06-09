@@ -22,14 +22,14 @@
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/AskForTrempActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/AskForTrempActivity.java" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/CreateNewTripActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/CreateNewTripActivity.java" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/JoinGroupActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/JoinGroupActivity.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/NetworkChangedReceiver.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/NetworkChangedReceiver.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/MainActivity.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/MyTrempsRequestsActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/MyTrempsRequestsActivity.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/MyTripsActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/MyTripsActivity.java" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/NewGroupActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/NewGroupActivity.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/ShowAllTrempsActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/ShowAllTrempsActivity.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/ShowAllTripsActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/ShowAllTripsActivity.java" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/SignInActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/SignInActivity.java" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/SignUpActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/SignUpActivity.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_join_group.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_join_group.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_new_group.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_new_group.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_in.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_in.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_up.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_up.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -52,68 +52,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="AskForTrempActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AskForTrempActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/AskForTrempActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="257">
-              <caret line="493" column="39" lean-forward="false" selection-start-line="493" selection-start-column="39" selection-end-line="493" selection-end-column="39" />
+            <state relative-caret-position="471">
+              <caret line="658" column="84" lean-forward="false" selection-start-line="658" selection-start-column="84" selection-end-line="658" selection-end-column="84" />
               <folding>
-                <element signature="e#4983#5135#0" expanded="true" />
-                <element signature="e#5134#5135#0" expanded="true" />
+                <element signature="e#5451#5601#0" expanded="true" />
+                <element signature="e#5600#5601#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CreateNewTripActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/CreateNewTripActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="174">
-              <caret line="482" column="39" lean-forward="false" selection-start-line="482" selection-start-column="39" selection-end-line="482" selection-end-column="39" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SignUpActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/SignUpActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="462">
-              <caret line="78" column="9" lean-forward="false" selection-start-line="78" selection-start-column="9" selection-end-line="78" selection-end-column="9" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JoinGroupActivity.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/JoinGroupActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-258">
-              <caret line="108" column="20" lean-forward="false" selection-start-line="108" selection-start-column="20" selection-end-line="108" selection-end-column="20" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NewGroupActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/NewGroupActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="52">
-              <caret line="62" column="43" lean-forward="false" selection-start-line="62" selection-start-column="43" selection-end-line="62" selection-end-column="43" />
-              <folding>
-                <element signature="e#1584#3530#0" expanded="true" />
-                <element signature="e#3529#3530#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SignInActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/SignInActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="318">
-              <caret line="58" column="89" lean-forward="false" selection-start-line="58" selection-start-column="16" selection-end-line="58" selection-end-column="89" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -2187,30 +2134,30 @@
         <option value="$PROJECT_DIR$/app/build/intermediates/manifests/instant-run/debug/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/Group.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/NotificationService.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/travel_list_object.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/Tremp.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/ShowAllTrempsActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/MyTrempsRequestsActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/TrempListAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/TrempListObject.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/Trip.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/TripListObject.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/ShowAllTripsActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/TripListAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/MyTripsActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_join_group.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_up.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_in.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/NetworkChangedReceiver.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/SignInActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/AskForTrempActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/CreateNewTripActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/SignUpActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_new_group.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/NewGroupActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/CreateNewTripActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/JoinGroupActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/MyTrempsRequestsActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/MyTripsActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/NewGroupActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/ShowAllTrempsActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/ShowAllTripsActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/SignInActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/SignUpActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/AskForTrempActivity.java" />
       </list>
     </option>
   </component>
@@ -2296,6 +2243,15 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="res" type="462c0819:PsiDirectoryNode" />
               <item name="layout" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="TrempTrip" type="b2602c69:ProjectViewProjectNode" />
+              <item name="TrempTrip" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="res" type="462c0819:PsiDirectoryNode" />
+              <item name="values" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -2542,8 +2498,8 @@
         <state relative-caret-position="9162">
           <caret line="509" column="91" lean-forward="true" selection-start-line="508" selection-start-column="19" selection-end-line="509" selection-end-column="91" />
           <folding>
-            <element signature="e#4983#5135#0" expanded="true" />
-            <element signature="e#5134#5135#0" expanded="true" />
+            <element signature="e#5451#5601#0" expanded="true" />
+            <element signature="e#5600#5601#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2632,14 +2588,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/NetworkChangeReceiver.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" column="19" lean-forward="false" selection-start-line="11" selection-start-column="19" selection-end-line="11" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/build/intermediates/manifests/instant-run/debug/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
@@ -2703,22 +2651,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/MyTrempsRequestsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="182" column="18" lean-forward="false" selection-start-line="182" selection-start-column="18" selection-end-line="182" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/TrempListAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="49" column="56" lean-forward="false" selection-start-line="49" selection-start-column="56" selection-end-line="49" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/Tremp.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
@@ -2747,30 +2679,6 @@
             <element signature="e#1093#1094#0" expanded="false" />
             <element signature="e#1131#1132#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/ShowAllTripsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="215" column="5" lean-forward="false" selection-start-line="187" selection-start-column="4" selection-end-line="215" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/ShowAllTrempsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="228" column="0" lean-forward="false" selection-start-line="198" selection-start-column="4" selection-end-line="228" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/MyTripsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="176" column="37" lean-forward="false" selection-start-line="176" selection-start-column="37" selection-end-line="176" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2875,49 +2783,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3242">
-          <caret line="35" column="13" lean-forward="false" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/SignInActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="318">
-          <caret line="58" column="89" lean-forward="false" selection-start-line="58" selection-start-column="16" selection-end-line="58" selection-end-column="89" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/AskForTrempActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="493" column="39" lean-forward="false" selection-start-line="493" selection-start-column="39" selection-end-line="493" selection-end-column="39" />
-          <folding>
-            <element signature="e#4983#5135#0" expanded="true" />
-            <element signature="e#5134#5135#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/CreateNewTripActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="482" column="39" lean-forward="false" selection-start-line="482" selection-start-column="39" selection-end-line="482" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/SignUpActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="78" column="9" lean-forward="false" selection-start-line="78" selection-start-column="9" selection-end-line="78" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_new_group.xml">
       <provider editor-type-id="android-designer2">
         <state />
@@ -2929,22 +2794,118 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/NewGroupActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="52">
-          <caret line="62" column="43" lean-forward="false" selection-start-line="62" selection-start-column="43" selection-end-line="62" selection-end-column="43" />
-          <folding>
-            <element signature="e#1584#3530#0" expanded="true" />
-            <element signature="e#3529#3530#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="49" column="17" lean-forward="false" selection-start-line="49" selection-start-column="17" selection-end-line="49" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="11" column="19" lean-forward="false" selection-start-line="11" selection-start-column="19" selection-end-line="11" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/CreateNewTripActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="120" column="55" lean-forward="false" selection-start-line="120" selection-start-column="55" selection-end-line="120" selection-end-column="55" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/JoinGroupActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-258">
-          <caret line="108" column="20" lean-forward="false" selection-start-line="108" selection-start-column="20" selection-end-line="108" selection-end-column="20" />
+        <state relative-caret-position="252">
+          <caret line="45" column="55" lean-forward="false" selection-start-line="45" selection-start-column="55" selection-end-line="45" selection-end-column="55" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/MyTrempsRequestsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="49" column="55" lean-forward="false" selection-start-line="49" selection-start-column="55" selection-end-line="49" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/MyTripsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="49" column="55" lean-forward="false" selection-start-line="49" selection-start-column="55" selection-end-line="49" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/NewGroupActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="41" column="55" lean-forward="false" selection-start-line="41" selection-start-column="55" selection-end-line="41" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/ShowAllTrempsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="52" column="55" lean-forward="false" selection-start-line="52" selection-start-column="55" selection-end-line="52" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/ShowAllTripsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="51" column="55" lean-forward="false" selection-start-line="51" selection-start-column="55" selection-end-line="51" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/SignInActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="29" column="55" lean-forward="false" selection-start-line="29" selection-start-column="55" selection-end-line="29" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/SignUpActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="34" column="55" lean-forward="false" selection-start-line="34" selection-start-column="55" selection-end-line="34" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/TrempListAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/AskForTrempActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="471">
+          <caret line="658" column="84" lean-forward="false" selection-start-line="658" selection-start-column="84" selection-end-line="658" selection-end-column="84" />
+          <folding>
+            <element signature="e#5451#5601#0" expanded="true" />
+            <element signature="e#5600#5601#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -47,6 +47,7 @@ public class MyTripsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_trips);
         setFirebaseVariables();
         setGoogleAPIVar();
+        MainActivity.setDefaultLanguage(this,"en_US ");
 
     }
 

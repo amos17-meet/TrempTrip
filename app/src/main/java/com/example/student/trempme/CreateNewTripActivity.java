@@ -118,7 +118,7 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
         setFirebaseVariables();
         setBtnCreateNewTrip();
 
-
+        MainActivity.setDefaultLanguage(this,"en_US ");
 
     }
 
