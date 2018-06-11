@@ -45,7 +45,7 @@ public class NetworkChangedReceiver extends BroadcastReceiver{
         }
     }
 
-
+//amos
 
 
 
