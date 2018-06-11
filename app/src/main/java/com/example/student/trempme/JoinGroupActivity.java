@@ -42,7 +42,7 @@ public class JoinGroupActivity extends AppCompatActivity implements View.OnClick
         setInputViews();
         setBtnJoinGroupListener();
         setBtnGoToNewGroup();
-
+        //static func from main activity that keep the screen ltr
         Helper.setDefaultLanguage(this,"en_US ");
     }
 
@@ -76,6 +76,7 @@ public class JoinGroupActivity extends AppCompatActivity implements View.OnClick
         }
 
         if (view==btnGoToNewGroup){
+            //send an intent to CreateNewGroup and wait for result
             Intent intent=new Intent(this,NewGroupActivity.class);
             startActivityForResult(intent,0);
         }
@@ -86,12 +87,18 @@ public class JoinGroupActivity extends AppCompatActivity implements View.OnClick
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==0){
             if (resultCode==RESULT_OK){
+                //if the user created new group,
+                //set the groupName to the name of the new group
                 etGroupName.setText(data.getStringExtra("groupName"));
             }
         }
 
     }
 
+    /*
+     *add the user to the group with the name groupName
+     *@param groupName
+     */
     private void addUserToGroup(String groupName){
         if(etFullName.getText().toString().equals("")||
                 etPhoneNumber.getText().toString().equals("")||
@@ -149,6 +156,7 @@ public class JoinGroupActivity extends AppCompatActivity implements View.OnClick
 
     }
 
+    // set global variable myUser to the connected user
     public void setMyUser(){
         final Query userQuery=myRef.child("User").child(userAuth.getUid());
 
