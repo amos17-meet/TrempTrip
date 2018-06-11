@@ -1,7 +1,9 @@
 package com.example.student.trempme;
 
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.os.Handler;
@@ -120,18 +122,31 @@ public class NotificationService extends Service {
         Intent intent = new Intent(this, ShowAllTripsActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-        NotificationCompat.Builder mBuilder =
-            new NotificationCompat.Builder(this)
-                    .setSmallIcon(R.drawable.places_ic_search)
-                    .setContentTitle("See all Trips")
-                    .setContentText("Some may fit your tremps ")
-                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                    .setContentIntent(pendingIntent); //Required on Gingerbread and below
+//        NotificationCompat.Builder mBuilder =
+//            new NotificationCompat.Builder(this)
+//                    .setSmallIcon(R.drawable.places_ic_search)
+//                    .setContentTitle("See all Trips")
+//                    .setContentText("Some may fit your tremps ")
+//                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+//                    .setContentIntent(pendingIntent); //Required on Gingerbread and below
+//
+//        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+//
+//        // notificationId is a unique int for each notification that you must define
+//        notificationManager.notify(0, mBuilder.build());
 
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.places_ic_search)
+                        .setContentTitle("ee all Trips")
+                        .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                        .setContentText("Some may fit your tremps");
+        int NOTIFICATION_ID = 12345;
 
-        // notificationId is a unique int for each notification that you must define
-        notificationManager.notify(0, mBuilder.build());
+
+        builder.setContentIntent(pendingIntent);
+        NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        nManager.notify(NOTIFICATION_ID, builder.build());
     }
 
     private void checkForMatchTrempToTrip(){

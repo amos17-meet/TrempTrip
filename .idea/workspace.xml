@@ -19,8 +19,7 @@
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.lock" afterPath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.lock" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/AskForTrempActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/AskForTrempActivity.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/NotificationService.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/NotificationService.java" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_ask_for_tremp.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_ask_for_tremp.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -44,14 +43,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="AskForTrempActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AskForTrempActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/AskForTrempActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="214">
-              <caret line="699" column="71" lean-forward="true" selection-start-line="699" selection-start-column="71" selection-end-line="699" selection-end-column="71" />
+            <state relative-caret-position="2088">
+              <caret line="282" column="0" lean-forward="false" selection-start-line="282" selection-start-column="0" selection-end-line="282" selection-end-column="0" />
               <folding>
-                <element signature="e#25861#27067#0" expanded="true" />
-                <element signature="e#27066#27067#0" expanded="true" />
+                <element signature="e#22146#23352#0" expanded="true" />
+                <element signature="e#23351#23352#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -61,12 +60,22 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="273">
-              <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+              <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
               <folding />
             </state>
           </provider>
           <provider editor-type-id="android-manifest">
             <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NotificationService.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/NotificationService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="304">
+              <caret line="141" column="99" lean-forward="false" selection-start-line="141" selection-start-column="99" selection-end-line="141" selection-end-column="99" />
+              <folding />
+            </state>
           </provider>
         </entry>
       </file>
@@ -84,7 +93,7 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_ask_for_tremp.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="306">
-              <caret line="89" column="8" lean-forward="false" selection-start-line="89" selection-start-column="8" selection-end-line="89" selection-end-column="8" />
+              <caret line="89" column="14" lean-forward="false" selection-start-line="82" selection-start-column="3" selection-end-line="89" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -2185,15 +2194,15 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/SignInActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/SignUpActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/MainActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/NotificationService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/TripListAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/TrempListAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/Helper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/CreateNewTripActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_create_new_trip.xml" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_ask_for_tremp.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/AskForTrempActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_ask_for_tremp.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/NotificationService.java" />
       </list>
     </option>
   </component>
@@ -2918,14 +2927,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/NotificationService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="228" column="38" lean-forward="false" selection-start-line="228" selection-start-column="38" selection-end-line="228" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/CreateNewTripActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="552">
@@ -2977,21 +2978,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_ask_for_tremp.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="89" column="8" lean-forward="false" selection-start-line="89" selection-start-column="8" selection-end-line="89" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="273">
-          <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+          <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -3001,12 +2991,31 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/AskForTrempActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="699" column="71" lean-forward="true" selection-start-line="699" selection-start-column="71" selection-end-line="699" selection-end-column="71" />
+        <state relative-caret-position="2088">
+          <caret line="282" column="0" lean-forward="false" selection-start-line="282" selection-start-column="0" selection-end-line="282" selection-end-column="0" />
           <folding>
-            <element signature="e#25861#27067#0" expanded="true" />
-            <element signature="e#27066#27067#0" expanded="true" />
+            <element signature="e#22146#23352#0" expanded="true" />
+            <element signature="e#23351#23352#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_ask_for_tremp.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="89" column="14" lean-forward="false" selection-start-line="82" selection-start-column="3" selection-end-line="89" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/student/trempme/NotificationService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="141" column="99" lean-forward="false" selection-start-line="141" selection-start-column="99" selection-end-line="141" selection-end-column="99" />
+          <folding />
         </state>
       </provider>
     </entry>
