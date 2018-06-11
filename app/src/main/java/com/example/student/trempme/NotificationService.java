@@ -196,11 +196,11 @@ public class NotificationService extends Service {
     }
 
     private void deleteTrempOrTrip(){
-        final Query myTremps=myRef.child("tremps").orderByChild("userId").equalTo(userAuth.getUid());
+        final Query groupTremps=myRef.child("tremps");
 
-        Log.w("PRINT QUERY",myTremps+"");
+        Log.w("PRINT QUERY",groupTremps+"");
 
-        myTremps.addValueEventListener(new ValueEventListener() {
+        groupTremps.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.w("deleteTrempOrTrip","dataChange-tremp");
@@ -208,12 +208,13 @@ public class NotificationService extends Service {
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
                    Tremp tremp =singleSnapshot.getValue(Tremp.class);
                    if(tremp.getDepartureTime()+3600000*24<currentTime){
-                        myRef.child("tremps").child(tremp.getTrempId()).removeValue();
+                        myRef.child("tremps").child(singleSnapshot.getKey()).removeValue();
                    }
                    else{
-                       currentUserTremps.add(tremp);
-                       currentUserTrempsIndex.add(singleSnapshot.getKey());
-
+                       if(tremp.getUserId().equals(userAuth.getUid())){
+                           currentUserTremps.add(tremp);
+                           currentUserTrempsIndex.add(singleSnapshot.getKey());
+                       }
                    }
                 }
             }
@@ -223,11 +224,11 @@ public class NotificationService extends Service {
             }
         });
 
-        final Query myTrips=myRef.child("trips").orderByChild("userId").equalTo(userAuth.getUid());
+        final Query groupTrips=myRef.child("trips");
 
-        Log.w("PRINT QUERY",myTrips+"");
+        Log.w("PRINT QUERY",groupTrips+"");
 
-        myTrips.addValueEventListener(new ValueEventListener() {
+        groupTrips.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.w("deleteTrempOrTrip","dataChange-tremp");
@@ -235,10 +236,13 @@ public class NotificationService extends Service {
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
                     Trip trip =singleSnapshot.getValue(Trip.class);
                     if(trip.getDepartureTime()+3600000*24<currentTime){
-                        myRef.child("trips").child(trip.getTripId()).removeValue();
+                        myRef.child("trips").child(singleSnapshot.getKey()).removeValue();
                     }
                     else{
-                        currentUserTrips.add(trip);
+                        if(trip.getUserId().equals(userAuth.getUid())){
+                            currentUserTrips.add(trip);
+                        }
+
 
                     }
                 }

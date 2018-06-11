@@ -27,7 +27,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_sign_in);
         setBtnSignUpListener();
         setBtnGoToSignUpListener();
-        MainActivity.setDefaultLanguage(this,"en_US ");
+        Helper.setDefaultLanguage(this,"en_US ");
     }
 
     @Override

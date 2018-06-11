@@ -47,15 +47,6 @@ public class MainActivity extends AppCompatActivity{
     private BroadcastReceiver mNetworkReceiver;
 
 
-    public static void setDefaultLanguage(Context context, String lang) {
-        Locale locale = new Locale(lang);
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-        context.getResources().updateConfiguration(config,
-                context.getResources().getDisplayMetrics());
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +58,7 @@ public class MainActivity extends AppCompatActivity{
         mNetworkReceiver = new NetworkChangedReceiver();
         registerNetworkBroadcastForNougat();
         SetIntentButtons();
-        setDefaultLanguage(this,"en_US ");
+        Helper.setDefaultLanguage(this,"en_US ");
 
 
 

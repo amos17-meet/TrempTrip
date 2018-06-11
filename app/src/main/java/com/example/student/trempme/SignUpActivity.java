@@ -32,7 +32,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_sign_up);
         setBtnSubmitListener();
         setFirebaseVariables();
-        MainActivity.setDefaultLanguage(this,"en_US ");
+        Helper.setDefaultLanguage(this,"en_US ");
 
     }
 

@@ -4,9 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
+    android:padding="10dp"
     android:orientation="vertical"
     tools:context=".CreateNewTripActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create New Trip"
+            android:textSize="40sp"
+            />
+    </LinearLayout>
 
     <TableLayout
         android:layout_width="match_parent"
@@ -34,7 +47,6 @@
                 android:id="@+id/tvStartPlace"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="You'r Current Location"
                 android:textSize="20sp"/>
 
         </TableRow>

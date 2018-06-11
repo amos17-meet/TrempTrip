@@ -56,7 +56,7 @@ public class TrempListAdapter extends ArrayAdapter<TrempListObject> {
         Log.w("getTrempTime",dateformat.format(date));
         tvTime.setText(dateformat.format(date));
 
-        dateformat = new SimpleDateFormat("MM/dd");
+        dateformat = new SimpleDateFormat("dd/MM");
         Log.w("getTrempDate",dateformat.format(date));
         tvDate.setText(dateformat.format(date));
 

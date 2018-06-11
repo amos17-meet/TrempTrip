@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.LoaderManager;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -131,7 +132,7 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
 
 
         //static func from main activity that keep the screen ltr
-        MainActivity.setDefaultLanguage(this,"en_US ");
+        Helper.setDefaultLanguage(this,"en_US ");
 
 
 
@@ -209,7 +210,7 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
             stringDay = "0" + stringDay;
         }
         chosenDayOfMonth = myCalender.get(Calendar.DAY_OF_MONTH);
-        tvDate.setText(stringDay + "," + stringMonth + "," + chosenYear);
+        tvDate.setText(stringDay + "/" + stringMonth + "/" + chosenYear);
     }
 
     // set the spinner number of available sits
@@ -660,30 +661,34 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
     private void setCurrentPlace() {
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions();
-        }
-        Task<PlaceLikelihoodBufferResponse> placeResult = mPlaceDetectionClient.getCurrentPlace(null);
-        placeResult.addOnCompleteListener(new OnCompleteListener<PlaceLikelihoodBufferResponse>() {
-            @Override
-            public void onComplete(@NonNull Task<PlaceLikelihoodBufferResponse> task) {
-                PlaceLikelihoodBufferResponse likelyPlaces = task.getResult();
-                double maxLikelihoodScore=0;
-                Place maxLikelihoodPlace = null;
-                for (PlaceLikelihood placeLikelihood : likelyPlaces) {
-                    if(maxLikelihoodScore<placeLikelihood.getLikelihood()){
-                        maxLikelihoodScore=placeLikelihood.getLikelihood();
-                        maxLikelihoodPlace=placeLikelihood.getPlace().freeze();
+        }else{
+            Task<PlaceLikelihoodBufferResponse> placeResult = mPlaceDetectionClient.getCurrentPlace(null);
+            placeResult.addOnCompleteListener(new OnCompleteListener<PlaceLikelihoodBufferResponse>() {
+                @Override
+                public void onComplete(@NonNull Task<PlaceLikelihoodBufferResponse> task) {
+                    PlaceLikelihoodBufferResponse likelyPlaces = task.getResult();
+                    double maxLikelihoodScore=0;
+                    Place maxLikelihoodPlace = null;
+                    for (PlaceLikelihood placeLikelihood : likelyPlaces) {
+                        if(maxLikelihoodScore<placeLikelihood.getLikelihood()){
+                            maxLikelihoodScore=placeLikelihood.getLikelihood();
+                            maxLikelihoodPlace=placeLikelihood.getPlace().freeze();
+                        }
+                        Log.i("TAG", String.format("Place '%s' has likelihood: %g",
+                                placeLikelihood.getPlace().getName(),
+                                placeLikelihood.getLikelihood()));
+
+
+
                     }
-                    Log.i("TAG", String.format("Place '%s' has likelihood: %g",
-                            placeLikelihood.getPlace().getName(),
-                            placeLikelihood.getLikelihood()));
-
-
-
+                    fromId=maxLikelihoodPlace.getId();
+                    tvStartPlace.setText(maxLikelihoodPlace.getName());
+                    likelyPlaces.release();
                 }
-                fromId=maxLikelihoodPlace.getId();
-                tvStartPlace.setText(maxLikelihoodPlace.getName());
-                likelyPlaces.release();
-            }
-        });
+            });
+        }
+
+
+
     }
 }
