@@ -48,6 +48,12 @@ import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -94,6 +100,9 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
     private String toId;
     private String fromId;
 
+//    private Place fromPlace;
+//    private Place toPlace;
+
 
     FirebaseUser userAuth;
     FirebaseDatabase database;
@@ -133,6 +142,8 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
 
         //static func from main activity that keep the screen ltr
         Helper.setDefaultLanguage(this,"en_US ");
+
+
 
 
 
@@ -269,29 +280,7 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
     //send an intent to the place autocomplete made by google
     //filter for results only in israel
     private void onAutocompleteStartClicked() {
-        /*
-        autocompleteFragmentFrom = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment_from);
-        Log.w("TAG","in onAutocompleteFragmentFromClicked");
-        AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
-                .setCountry("IL")
-                .build();
-        autocompleteFragmentFrom.setFilter(typeFilter);
-        autocompleteFragmentFrom.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(Place place) {
-                Log.w("TAG-onPlaceSelected", "Place: " + place.getName());
-                Log.w("TAG-onPlaceSelected", "PlaceID: " + place.getId());
-                from=place.getId();
-            }
 
-            @Override
-            public void onError(Status status) {
-
-                Log.w("TAG", "An error occurred: " + status);
-            }
-        });
-
-*/
         try {
             AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
                     .setCountry("IL")
@@ -315,26 +304,6 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
     //filter for results only in israel
     private void onAutocompleteEndClicked() {
         Log.w("TAG", "in onAutocompleteFragmentToClicked");
-        /*
-        autocompleteFragmentTo = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment_to);
-        AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
-                .setCountry("IL")
-                .build();
-        autocompleteFragmentTo.setFilter(typeFilter);
-        autocompleteFragmentTo.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(Place place) {
-                Log.w("TAG-onPlaceSelected", "Place: " + place.getName());
-                Log.w("TAG-onPlaceSelected", "PlaceID: " + place.getId());
-                to=place.getId();
-            }
-
-            @Override
-            public void onError(Status status) {
-                Log.w("TAG", "An error occurred: " + status);
-            }
-        });
-*/
 
 
         try {
@@ -370,8 +339,9 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
                 tvStartPlace.setText(place.getName());
                 //set the fromId to the placeId
                 fromId = place.getId();
-
+//                fromPlace=place;
                 Log.w("TAG-onActivityResult", "Place: " + place.getName());
+//                setMap();
             // if something went wrong
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(this, data);
@@ -392,7 +362,9 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
                 tvEndPlace.setText(place.getName());
                 //set the toId to the placeId
                 toId = place.getId();
+//                toPlace=place;
                 Log.w("TAG-onActivityResult", "Place: " + place.getName());
+//                setMap();
                 //autocompleteFragmentEditTextTo.setText(place.getName());
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(this, data);
@@ -550,57 +522,6 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
         }
     }
 
-//    private void setCoordinationListener() {
-//
-//        locationListener = new LocationListener() {
-//            @Override
-//            public void onLocationChanged(Location location) {
-//                startLat = location.getLatitude();
-//                stringLon = location.getLongitude();
-//                Log.w("Coordination", startLat + " " + stringLon);
-//            }
-//
-//            @Override
-//            public void onStatusChanged(String provider, int status, Bundle extras) {
-//
-//            }
-//
-//            @Override
-//            public void onProviderEnabled(String provider) {
-//
-//            }
-//
-//            @Override
-//            public void onProviderDisabled(String provider) {
-//
-//            }
-//        };
-//    }
-
-//    private void setCoordinationCurrentLocation() {
-//        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//
-//        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            requestPermissions();
-//
-//        }
-//        locationManager.requestLocationUpdates(
-//                LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
-//    }
-
-//    private void setCurrentPlace()  {
-//        Geocoder geocoder;
-//        List<Address> addresses;
-//        geocoder = new Geocoder(this, Locale.getDefault());
-//        try{
-//            addresses = geocoder.getFromLocation(startLat, stringLon, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-//            String city = addresses.get(0).getLocality();
-//            Log.w("city",city);
-//        }catch (Exception e){
-//            Log.w("Exception",e);
-//        }
-//
-//    }
 
     //request permission for ACCESS_FINE_LOCATION
     private void requestPermissions() {
@@ -682,6 +603,7 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
 
                     }
                     fromId=maxLikelihoodPlace.getId();
+//                    fromPlace=maxLikelihoodPlace;
                     tvStartPlace.setText(maxLikelihoodPlace.getName());
                     likelyPlaces.release();
                 }
@@ -691,4 +613,27 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
 
 
     }
+
+//    private void setMap(){
+//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+//                .findFragmentById(R.id.map);
+//        mapFragment.getMapAsync(this);
+//
+//    }
+//
+//    @Override
+//    public void onMapReady(GoogleMap googleMap) {
+//        // Add a marker in Sydney, Australia,
+//        // and move the map's camera to the same location.
+//        if(fromPlace!=null&&toPlace!=null){
+//            LatLng from = new LatLng(fromPlace.getLatLng().latitude,fromPlace.getLatLng().longitude);
+//            LatLng to = new LatLng(toPlace.getLatLng().latitude,toPlace.getLatLng().longitude);
+//            googleMap.addMarker(new MarkerOptions().position(from)
+//                    .title(""));
+//            googleMap.addMarker(new MarkerOptions().position(to)
+//                    .title(""));
+//            googleMap.moveCamera(CameraUpdateFactory.newLatLng(from));
+//        }
+//
+//    }
 }
