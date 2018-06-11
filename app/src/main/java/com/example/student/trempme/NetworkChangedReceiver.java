@@ -1,7 +1,9 @@
 package com.example.student.trempme;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -11,7 +13,7 @@ import android.widget.Toast;
 public class NetworkChangedReceiver extends BroadcastReceiver{
     private boolean hasConnection=true;
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(final Context context, Intent intent) {
         try
         {
             if (isOnline(context)) {
@@ -20,7 +22,11 @@ public class NetworkChangedReceiver extends BroadcastReceiver{
             } else {
                 Log.w("receive", "Connectivity Failure !!! ");
                 Toast.makeText(context.getApplicationContext(),"No Internet Connection", Toast.LENGTH_LONG).show();
-                hasConnection=false;
+                Intent i = new Intent(context, MainActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                i.addFlags (Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                i.putExtra("close_activity",true);
+                context.startActivity(i);
             }
         } catch (NullPointerException e) {
             e.printStackTrace();

@@ -138,7 +138,7 @@ public class NotificationService extends Service {
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.places_ic_search)
-                        .setContentTitle("ee all Trips")
+                        .setContentTitle("see all Trips")
                         .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                         .setContentText("Some may fit your tremps");
         int NOTIFICATION_ID = 12345;
