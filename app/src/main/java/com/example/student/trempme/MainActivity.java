@@ -36,6 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Locale;
 
+
 public class MainActivity extends AppCompatActivity{
     FirebaseUser userAuth;
     FirebaseDatabase database;
@@ -47,7 +48,10 @@ public class MainActivity extends AppCompatActivity{
     private BroadcastReceiver mNetworkReceiver;
 
 
-
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,13 +71,13 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-    /*
-    first check if user connected
-        if so, check if he/she has all details
-            if so, set the myRef
-        else,
-            goto JoinGroupActivity
-    else, goto SingInActivity
+    /**
+     * first check if user connected
+     if so, check if he/she has all details
+     if so, set the myRef
+     else,
+     goto JoinGroupActivity
+     else, goto SingInActivity
      */
     @Override
     protected void onStart() {
@@ -193,8 +197,11 @@ public class MainActivity extends AppCompatActivity{
     }
 
 
-
-
+    /**
+     *
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -202,6 +209,11 @@ public class MainActivity extends AppCompatActivity{
         return true;
     }
 
+    /**
+     *
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
