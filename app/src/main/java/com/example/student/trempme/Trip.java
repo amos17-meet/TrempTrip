@@ -89,24 +89,6 @@ public class Trip {
         this.userId = userId;
     }
 
-//    public String getTripTime(){
-//        long ms = this.departureTime;
-//        Date date = new Date(ms);
-//        SimpleDateFormat dateformat = new SimpleDateFormat("HH:mm");
-//        Log.w("getTrempTime",dateformat.format(date));
-//        return dateformat.format(date);
-//    }
-//    public String getTripDate(){
-//        long ms = this.departureTime;
-//        Date date = new Date(ms);
-//        SimpleDateFormat dateformat = new SimpleDateFormat("MM/dd");
-//        Log.w("getTrempDate",dateformat.format(date));
-//        return dateformat.format(date);
-//    }
-//
-//    public void serTripTime(String time){}
-//
-//    public void serTripDate(String Date){}
-//
+
 
 }

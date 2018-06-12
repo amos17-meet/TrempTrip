@@ -115,7 +115,10 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
     private GeoDataClient mGeoDataClient;
     private PlaceDetectionClient mPlaceDetectionClient;
 
-
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -325,7 +328,12 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
     }
 
 
-
+    /**
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -540,7 +548,12 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
 
     }
 
-    //handle permission result
+    /**
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {

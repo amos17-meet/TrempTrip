@@ -98,26 +98,5 @@ public class Tremp {
         this.notificationSent = notificationSent;
     }
 
-    //    public String getTrempTime(){
-//        long ms = this.departureTime;
-//        Date date = new Date(ms);
-//        SimpleDateFormat dateformat = new SimpleDateFormat("HH:mm");
-//        Log.w("getTrempTime",dateformat.format(date));
-//        return dateformat.format(date);
-//    }
-//    public String getTrempDate(){
-//        long ms = this.departureTime;
-//        Date date = new Date(ms);
-//        SimpleDateFormat dateformat = new SimpleDateFormat("MM/dd");
-//        Log.w("getTrempDate",dateformat.format(date));
-//        return dateformat.format(date);
-//    }
-//
-//    public void setTrempTime(String time){
-//
-//    }
-//    public void setTrempDate(String date){
-//
-//    }
 
 }
