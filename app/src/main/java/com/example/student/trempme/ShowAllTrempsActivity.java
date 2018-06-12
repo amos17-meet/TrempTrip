@@ -154,6 +154,8 @@ public class ShowAllTrempsActivity extends AppCompatActivity {
                     Log.w("myPlaces-start",myPlaces[0].getName()+"");
                     placeList.add(place);
                     places.release();
+                    sizeOfPlaceList++;
+                    canContinueToLv(sizeOfPlaceList);
 
 
 
@@ -190,7 +192,7 @@ public class ShowAllTrempsActivity extends AppCompatActivity {
 
     private void canContinueToLv(int sizeOfPlaceList){
         Log.w("can cuntinue", sizeOfPlaceList+" "+trempList.size());
-        if(sizeOfPlaceList==trempList.size()){
+        if(sizeOfPlaceList==trempList.size()*2){
             Log.w("can cuntinue", "yes");
             completeTrempListObject();
         }
@@ -220,10 +222,8 @@ public class ShowAllTrempsActivity extends AppCompatActivity {
 
                 }
             });
-
+            i++;
         }
-        i++;
-
     }
 
 

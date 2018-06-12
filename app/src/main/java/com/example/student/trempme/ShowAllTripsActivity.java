@@ -52,6 +52,35 @@ public class ShowAllTripsActivity extends AppCompatActivity {
         Helper.setDefaultLanguage(this,"en_US ");
     }
 
+    private void setFirebaseVariables() {
+        database = FirebaseDatabase.getInstance();
+        userAuth = FirebaseAuth.getInstance().getCurrentUser();
+        setMyRef();
+    }
+    public void setMyRef() {
+        Query myUser=database.getReference().child("User").child(userAuth.getUid());
+
+        myUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.w("setMyRef",dataSnapshot.toString());
+                String groupOfUser=dataSnapshot.getValue(String.class);
+                myRef=database.getReference().child("Group").child(groupOfUser);
+                setTripList();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void setGoogleAPIVar(){
+        mGeoDataClient = Places.getGeoDataClient(this, null);
+        mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
+    }
+
 
 
     public void setLvTripList(){
@@ -102,34 +131,7 @@ public class ShowAllTripsActivity extends AppCompatActivity {
     }
 
 
-    private void setFirebaseVariables() {
-        database = FirebaseDatabase.getInstance();
-        userAuth = FirebaseAuth.getInstance().getCurrentUser();
-        setMyRef();
-    }
-    public void setMyRef() {
-        Query myUser=database.getReference().child("User").child(userAuth.getUid());
 
-        myUser.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.w("setMyRef",dataSnapshot.toString());
-                String groupOfUser=dataSnapshot.getValue(String.class);
-                myRef=database.getReference().child("Group").child(groupOfUser);
-                setTripList();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void setGoogleAPIVar(){
-        mGeoDataClient = Places.getGeoDataClient(this, null);
-        mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
-    }
 
     private void getStartAndEndName(String startPlaceId,String endPlaceId){
         Log.w("Place by id", "here");
@@ -139,13 +141,14 @@ public class ShowAllTripsActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<PlaceBufferResponse> task) {
                 if (task.isSuccessful()) {
                     PlaceBufferResponse places = task.getResult();
-
                     Place place = places.get(0).freeze();
                     myPlaces[0]=place;
                     Log.w("Place by id", "Place found: " + place.getName());
                     Log.w("myPlaces-start",myPlaces[0].getName()+"");
                     placeList.add(place);
                     places.release();
+                    sizeOfPlaceList++;
+                    canContinueToLv(sizeOfPlaceList);
                 } else {
                     Log.w("Place by id", "Place not found.");
                 }
@@ -179,7 +182,7 @@ public class ShowAllTripsActivity extends AppCompatActivity {
 
     private void canContinueToLv(int sizeOfPlaceList){
         Log.w("can cuntinue", sizeOfPlaceList+" "+tripList.size());
-        if(sizeOfPlaceList==tripList.size()){
+        if(sizeOfPlaceList==tripList.size()*2){
             Log.w("can cuntinue", "yes");
             completeTripListObject();
         }
@@ -209,10 +212,8 @@ public class ShowAllTripsActivity extends AppCompatActivity {
 
                 }
             });
-
+            i++;
         }
-        i++;
-
     }
 
 

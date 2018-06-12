@@ -139,9 +139,8 @@ public class MyTrempsRequestsActivity extends AppCompatActivity {
                     Log.w("myPlaces-start",myPlaces[0].getName()+"");
                     placeList.add(place);
                     places.release();
-
-
-
+                    sizeOfPlaceList++;
+                    canContinueToLv(sizeOfPlaceList);
                 } else {
                     Log.w("Place by id", "Place not found.");
                 }
@@ -175,7 +174,7 @@ public class MyTrempsRequestsActivity extends AppCompatActivity {
 
     private void canContinueToLv(int sizeOfPlaceList){
         Log.w("can cuntinue", sizeOfPlaceList+" "+myTremps.size());
-        if(sizeOfPlaceList==myTremps.size()){
+        if(sizeOfPlaceList==myTremps.size()*2){
             Log.w("can cuntinue", "yes");
             completeTrempListObject();
         }
@@ -205,10 +204,8 @@ public class MyTrempsRequestsActivity extends AppCompatActivity {
 
                 }
             });
-
+            i++;
         }
-        i++;
-
     }
 
 

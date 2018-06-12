@@ -203,10 +203,8 @@ public class MyTripsActivity extends AppCompatActivity {
 
                 }
             });
-
+            i++;
         }
-        i++;
-
     }
 
 
