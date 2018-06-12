@@ -58,11 +58,6 @@ public class ShowAllTripsActivity extends AppCompatActivity {
         userAuth = FirebaseAuth.getInstance().getCurrentUser();
         setMyRef();
     }
-<<<<<<< HEAD
-=======
-
-    // set the reference to group for the user
->>>>>>> 7a715390cbc2170e542f271d3da0b18a7c23cf7f
     public void setMyRef() {
         Query myUser=database.getReference().child("User").child(userAuth.getUid());
 
@@ -81,20 +76,14 @@ public class ShowAllTripsActivity extends AppCompatActivity {
             }
         });
     }
-<<<<<<< HEAD
+
 
     private void setGoogleAPIVar(){
         mGeoDataClient = Places.getGeoDataClient(this, null);
         mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
     }
 
-=======
->>>>>>> 7a715390cbc2170e542f271d3da0b18a7c23cf7f
 
-    private void setGoogleAPIVar(){
-        mGeoDataClient = Places.getGeoDataClient(this, null);
-        mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
-    }
 
     //set the adapter of the list view to the tripListAdapter object
     public void setLvTripList(){
@@ -149,10 +138,10 @@ public class ShowAllTripsActivity extends AppCompatActivity {
     }
 
 
-<<<<<<< HEAD
 
 
-=======
+
+
     /**
     *get the place of the startPlaceId and the endPlaceId
     *add the places to placesList
@@ -160,7 +149,7 @@ public class ShowAllTripsActivity extends AppCompatActivity {
     * @param startPlaceId
     * @param endPlaceId
      */
->>>>>>> 7a715390cbc2170e542f271d3da0b18a7c23cf7f
+
     private void getStartAndEndName(String startPlaceId,String endPlaceId){
         Log.w("Place by id", "here");
         final Place[] myPlaces=new Place[2];
@@ -247,12 +236,7 @@ public class ShowAllTripsActivity extends AppCompatActivity {
 
                 }
             });
-<<<<<<< HEAD
             i++;
         }
-=======
-        }
-        i++;
->>>>>>> 7a715390cbc2170e542f271d3da0b18a7c23cf7f
     }
 }

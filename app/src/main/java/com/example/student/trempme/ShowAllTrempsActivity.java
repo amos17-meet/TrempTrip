@@ -230,9 +230,5 @@ public class ShowAllTrempsActivity extends AppCompatActivity {
             });
             i++;
         }
-<<<<<<< HEAD
-=======
-        i++;
->>>>>>> 7a715390cbc2170e542f271d3da0b18a7c23cf7f
     }
 }
