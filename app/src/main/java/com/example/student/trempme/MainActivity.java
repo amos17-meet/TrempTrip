@@ -55,9 +55,11 @@ public class MainActivity extends AppCompatActivity{
         //Intent intent=new Intent(this,MyTripsActivity.class);
         //startActivity(intent);
 
+        //set the NetworkChangedReceiver
         mNetworkReceiver = new NetworkChangedReceiver();
-        registerNetworkBroadcastForNougat();
+        registerNetworkBroadcast();
         SetIntentButtons();
+        //static func from main activity that keep the screen ltr
         Helper.setDefaultLanguage(this,"en_US ");
 
 
@@ -65,6 +67,14 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
+    /*
+    first check if user connected
+        if so, check if he/she has all details
+            if so, set the myRef
+        else,
+            goto JoinGroupActivity
+    else, goto SingInActivity
+     */
     @Override
     protected void onStart() {
         super.onStart();
@@ -117,6 +127,7 @@ public class MainActivity extends AppCompatActivity{
         userAuth = FirebaseAuth.getInstance().getCurrentUser();
     }
 
+    // set the reference to group for the user
     public void setMyRef(String groupId) {
         myRef=myRef.child("Group").child(groupId);
         Query q=myRef;
@@ -134,6 +145,7 @@ public class MainActivity extends AppCompatActivity{
         });
     }
 
+    //send an intent to JoinGroupActivity
     public void goToJoinGroup(){
 
         Intent intent =new Intent(MainActivity.this,JoinGroupActivity.class);
@@ -141,6 +153,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void SetIntentButtons(){
+        //goto AskForTrempActivity
         btnGoToNewTremp=findViewById(R.id.btnGoToCreateTremp);
         btnGoToNewTremp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,7 +162,7 @@ public class MainActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
-
+        //goto CreateNewTripActivity
         btnGoToNewTrip=findViewById(R.id.btnGoToCreateTrip);
         btnGoToNewTrip.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,7 +171,7 @@ public class MainActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
-
+        //goto ShowAllTrempsActivity
         btnShowAllTremps=findViewById(R.id.btnShowAllTremps);
         btnShowAllTremps.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,7 +180,7 @@ public class MainActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
-
+        //goto ShowAllTripsActivity
         btnShowAllTrips=findViewById(R.id.btnShowAllTrips);
         btnShowAllTrips.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,10 +207,12 @@ public class MainActivity extends AppCompatActivity{
         Intent intent;
         switch (item.getItemId()) {
             case R.id.myTrips:
+                //goto MyTripsActivity
                 intent =new Intent(this,MyTripsActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.myTrempsRequests:
+                //goto MyTrempsRequestsActivity
                 intent =new Intent(this,MyTrempsRequestsActivity.class);
                 startActivity(intent);
                 return true;
@@ -208,6 +223,11 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
+    /*
+    stop notification service
+    user sign out
+    goto SignIn
+     */
     private void signOut(){
         shouldStartService=false;
         Intent intent = new Intent(this, NotificationService.class);
@@ -218,38 +238,17 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-
-
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        if(shouldStartService){
-//            startService(new Intent(this, NotificationService.class));
-//        }
-//
-//    }
-//
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        startService(new Intent(this, NotificationService.class));
-//    }
-
-
-
-    private void registerNetworkBroadcastForNougat() {
+    //start broadcast receiver
+    private void registerNetworkBroadcast() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             registerReceiver(mNetworkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-
-
-
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             registerReceiver(mNetworkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
         }
     }
-
+    //stop the receiver
     protected void unregisterNetworkChanges() {
         try {
             unregisterReceiver(mNetworkReceiver);
@@ -267,6 +266,7 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        //if their is no internet connection, close app
         if(intent.getBooleanExtra("close_activity",false)){
             this.finish();
 

@@ -121,7 +121,6 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ask_for_tremp);
         requestPermissions();
-
         setAutocompleteView();
         setGoogleAPIVar();
         //only if the variable "hasPermissions" is true execute func the require permissions
@@ -187,6 +186,7 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
     }
 
     //set the Time Textview to the current time
+    //seve the time in the chosenHour chosenMinute variables
     private void setTvDepartureTime() {
         tvDepartureTime = findViewById(R.id.tvDepartureTime);
         Calendar myCalender = Calendar.getInstance();
@@ -352,6 +352,7 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
                 // The user canceled the operation.
             }
         }
+
         // the user search for from place
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE_TO) {
             //the user chose place
@@ -484,7 +485,7 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
 
     }
 
-    //upload tremprequest to firebase
+    //upload new tremprequest to firebase
     private void sendTrempRequest() {
         if (dataToMilSec()) {
             //Log.w("FROM", from);

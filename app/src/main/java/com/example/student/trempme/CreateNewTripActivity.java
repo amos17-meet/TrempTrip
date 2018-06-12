@@ -102,9 +102,9 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
         setGoogleAPIVar();
 
         if (hasPermissions) {
+            //only if the variable "hasPermissions" is true execute func the require permissions
             Log.w("hasPermissions", "True");
             setCurrentPlace();
-            setAutocompleteFragment();
         }
 
 
@@ -118,12 +118,13 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
         setFirebaseVariables();
         setBtnCreateNewTrip();
 
+        //static func from main activity that keep the screen ltr
         Helper.setDefaultLanguage(this,"en_US ");
 
     }
 
 
-
+    //define Google API variables
     private void setGoogleAPIVar(){
         mGeoDataClient = Places.getGeoDataClient(this, null);
         mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
@@ -158,7 +159,8 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
             }
         });
     }
-
+    //set the Time Textview to the current time
+    //seve the time in the chosenHour chosenMinute variables
     private void setTvDepartureTime() {
         tvDepartureTime = findViewById(R.id.tvDepartureTime);
         Calendar myCalender = Calendar.getInstance();
@@ -176,6 +178,7 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
         tvDepartureTime.setText(stringHour + ":" + stringMinute);
     }
 
+    //set the Date Textview to the current Date
     private void setTvDate() {
         tvDate = findViewById(R.id.tvDate);
         Calendar myCalender = Calendar.getInstance();
@@ -195,6 +198,7 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
         tvDate.setText(stringDay + "/" + stringMonth + "/" + chosenYear);
     }
 
+    // set the spinner number of available sits
     public void setSpinNumberOfAvailableSits() {
         spinNumberOfAvailableSits=findViewById(R.id.spinNumberOfAvailableSits);//fetch the spinner from layout file
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -217,6 +221,7 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
 
     }
 
+    //set the Text View of the auto complete and add on click listener
     private void setAutocompleteFragmentView() {
         tvStartPlace = findViewById(R.id.tvStartPlace);
         //Log.w("VIEW",tvStartPlace.toString());
@@ -246,34 +251,10 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
     }
 
 
-    private void setAutocompleteFragment() {
-        Log.w("AutocompleteFragment", "here");
-    }
-
+    //func for tvFrom
+    //send an intent to the place autocomplete made by google
+    //filter for results only in israel
     private void onAutocompleteStartClicked() {
-        /*
-        autocompleteFragmentFrom = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment_from);
-        Log.w("TAG","in onAutocompleteFragmentFromClicked");
-        AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
-                .setCountry("IL")
-                .build();
-        autocompleteFragmentFrom.setFilter(typeFilter);
-        autocompleteFragmentFrom.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(Place place) {
-                Log.w("TAG-onPlaceSelected", "Place: " + place.getName());
-                Log.w("TAG-onPlaceSelected", "PlaceID: " + place.getId());
-                from=place.getId();
-            }
-
-            @Override
-            public void onError(Status status) {
-                // TODO: Handle the error.
-                Log.w("TAG", "An error occurred: " + status);
-            }
-        });
-
-*/
         try {
             AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
                     .setCountry("IL")
@@ -291,31 +272,11 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
 
     }
 
+    //func for tvTo
+    //send an intent to the place autocomplete made by google
+    //filter for results only in israel
     private void onAutocompleteEndClicked() {
         Log.w("TAG", "in onAutocompleteFragmentToClicked");
-        /*
-        autocompleteFragmentTo = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment_to);
-        AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
-                .setCountry("IL")
-                .build();
-        autocompleteFragmentTo.setFilter(typeFilter);
-        autocompleteFragmentTo.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(Place place) {
-                Log.w("TAG-onPlaceSelected", "Place: " + place.getName());
-                Log.w("TAG-onPlaceSelected", "PlaceID: " + place.getId());
-                to=place.getId();
-            }
-
-            @Override
-            public void onError(Status status) {
-                // TODO: Handle the error.
-                Log.w("TAG", "An error occurred: " + status);
-            }
-        });
-*/
-
-
         try {
             AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
                     .setCountry("IL")
@@ -338,16 +299,21 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        // the user search for from place
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE_FROM) {
-
+            //the user chose place
             if (resultCode == RESULT_OK) {
+                //get the place
                 Place place = PlaceAutocomplete.getPlace(this, data);
+                //set the tvStartPlace to the place name
                 tvStartPlace.setText(place.getName());
+                //set the fromId to the placeId
                 fromId = place.getId();
                 startLat = place.getLatLng().latitude;
                 stringLon = place.getLatLng().longitude;
                 Log.w("TAG-onActivityResult", "Place: " + place.getName());
                 //autocompleteFragmentEditTextFrom.setText(place.getName());
+            // if something went wrong
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(this, data);
 
@@ -358,31 +324,35 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
             }
         }
 
+        // the user search for from place
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE_TO) {
+            //the user chose place
             if (resultCode == RESULT_OK) {
+                //get the place
                 Place place = PlaceAutocomplete.getPlace(this, data);
+                //set the tvStartPlace to the place name
                 tvEndPlace.setText(place.getName());
                 toId = place.getId();
                 Log.w("TAG-onActivityResult", "Place: " + place.getName());
                 //autocompleteFragmentEditTextTo.setText(place.getName());
+                // if something went wrong
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(this, data);
-                // TODO: Handle the error.
                 Log.w("TAG", status.getStatusMessage());
-
             } else if (resultCode == RESULT_CANCELED) {
                 // The user canceled the operation.
             }
         }
     }
 
-
+    //create time picker
     public void showTimePicker() {
         final Calendar myCalender = Calendar.getInstance();
 //        int hour = myCalender.get(Calendar.HOUR_OF_DAY);
 //        int minute = myCalender.get(Calendar.MINUTE);
 
-
+        //listener for the time picker dialog
+        //set the time variables according to the user election
         TimePickerDialog.OnTimeSetListener myTimeListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -398,6 +368,7 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
             }
         };
 
+        //create TimePicherDialog object
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, android.R.style.Theme_Holo_Light_Dialog_NoActionBar, myTimeListener, chosenHour, chosenMinute, true);
 
         //TimePickerDialog timePickerDialog = new TimePickerDialog(this,, myTimeListener, hour, minute, true);
@@ -408,13 +379,15 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
 
     }
 
+    //create Date picker
+    // set the date date variables according to the user election
     public void showDatePicker() {
         final Calendar myCalender = Calendar.getInstance();
 //        int year=myCalender.get(Calendar.YEAR);
 //        int month=myCalender.get(Calendar.MONTH);
 //        int dayOfMonth=myCalender.get(Calendar.DAY_OF_MONTH);
 
-
+        //create the listener for the dialog
         DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -428,19 +401,22 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
 
             }
         };
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, myDateListener, chosenYear, chosenMonth, chosenDayOfMonth);
 
+        //create the dialog
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, myDateListener, chosenYear, chosenMonth, chosenDayOfMonth);
+        //present the dialog
         datePickerDialog.show();
 
     }
 
-
+    //set firebase variables
     private void setFirebaseVariables() {
         database = FirebaseDatabase.getInstance();
         userAuth = FirebaseAuth.getInstance().getCurrentUser();
         setMyRef();
     }
 
+    // set the reference to group for the user
     public void setMyRef() {
         Query myUser=database.getReference().child("User").child(userAuth.getUid());
 
@@ -459,7 +435,7 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
         });
     }
 
-
+    //func that change the chosen time and date to milisec
     private boolean dataToMilSec() {
         boolean isMilSec = false;
         String myDate = chosenYear + "/" + chosenMonth + "/" + chosenDayOfMonth + " " + chosenHour + ":" + chosenMinute + ":00";
@@ -476,6 +452,7 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
 
     }
 
+    //upload new trip to firebase
     private void postNewTrip() {
         if (dataToMilSec()) {
             //Log.w("FROM", from);
@@ -516,58 +493,7 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
         }
     }
 
-    private void setCoordinationListener() {
-
-        locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                startLat = location.getLatitude();
-                stringLon = location.getLongitude();
-                Log.w("Coordination", startLat + " " + stringLon);
-            }
-
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String provider) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String provider) {
-
-            }
-        };
-    }
-
-    private void setCoordinationCurrentLocation() {
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions();
-
-        }
-        locationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
-    }
-
-//    private void setCurrentPlace()  {
-//        Geocoder geocoder;
-//        List<Address> addresses;
-//        geocoder = new Geocoder(this, Locale.getDefault());
-//        try{
-//            addresses = geocoder.getFromLocation(startLat, stringLon, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-//            String city = addresses.get(0).getLocality();
-//            Log.w("city",city);
-//        }catch (Exception e){
-//            Log.w("Exception",e);
-//        }
-//
-//    }
-
+    //request permission for ACCESS_FINE_LOCATION
     private void requestPermissions() {
         Log.w("in set request", "here");
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -583,6 +509,8 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
 
     }
 
+
+    //handle permission result
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -593,8 +521,6 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     hasPermissions = true;
-                    setCoordinationListener();
-                    setCoordinationCurrentLocation();
                     //setCurrentPlace();
 
                 } else {
@@ -622,6 +548,7 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
 
     }
 
+    //set the current place to the most Likelihood place according to google places
     private void setCurrentPlace() {
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions();
