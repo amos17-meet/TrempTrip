@@ -19,8 +19,13 @@ public class TrempListAdapter extends ArrayAdapter<TrempListObject> {
     Context context;
     List<TrempListObject> tremps;
 
-
-
+    /**
+     * constructor for the TrempListAdapter
+     * @param context
+     * @param resource
+     * @param textViewResourceId
+     * @param tremps
+     */
     public TrempListAdapter(Context context, int resource, int textViewResourceId, List<TrempListObject> tremps) {
         super(context, resource, textViewResourceId, tremps);
         this.context=context;
@@ -28,9 +33,15 @@ public class TrempListAdapter extends ArrayAdapter<TrempListObject> {
 
 
     }
-    //creating the base layout for the users list
-    //using the given details from the current user in the users list
 
+
+    /**
+     * creates the list item layout and return it
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -49,7 +60,6 @@ public class TrempListAdapter extends ArrayAdapter<TrempListObject> {
         tvFullName.setText(tremp.getUserName());
         tvPhoneNumber.setText(tremp.getUserPhoneNumber());
 
-
         long ms = tremp.getDepartureTime();
         Date date = new Date(ms);
         SimpleDateFormat dateformat = new SimpleDateFormat("HH:mm");
@@ -59,8 +69,6 @@ public class TrempListAdapter extends ArrayAdapter<TrempListObject> {
         dateformat = new SimpleDateFormat("dd/MM");
         Log.w("getTrempDate",dateformat.format(date));
         tvDate.setText(dateformat.format(date));
-
-
 
         return view;
     }

@@ -47,6 +47,7 @@ public class MyTripsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_trips);
         setFirebaseVariables();
         setGoogleAPIVar();
+        //static func Helper main activity that keep the screen ltr
         Helper.setDefaultLanguage(this,"en_US ");
 
     }
@@ -56,6 +57,8 @@ public class MyTripsActivity extends AppCompatActivity {
         userAuth = FirebaseAuth.getInstance().getCurrentUser();
         setMyRef();
     }
+
+    // set the reference to group for the user
     public void setMyRef() {
         Query myUser=database.getReference().child("User").child(userAuth.getUid());
 
@@ -80,6 +83,7 @@ public class MyTripsActivity extends AppCompatActivity {
         mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
     }
 
+    //set the adapter of the list view to the tripListAdapter object
     public void setLvMyTrips(){
         Log.w("LV","here");
         lvMyTrips=findViewById(R.id.lvMyTrips);
@@ -88,6 +92,8 @@ public class MyTripsActivity extends AppCompatActivity {
 
     }
 
+    //set myTrips to all of the trips the user created
+    //when finish, call setPlaceList()
     public void setMyTrips(){
         Log.w("set my trips","here");
         Query allMyTrips=myRef.child("trips").orderByChild("userId").equalTo(userAuth.getUid());
@@ -114,6 +120,8 @@ public class MyTripsActivity extends AppCompatActivity {
         });
     }
 
+    //set the places list
+    //call getStartAndEndName() for each trip
     private void setPlaceList(){
         Log.w("PlaceList","here");
         for(Trip trip : myTrips){
@@ -122,6 +130,14 @@ public class MyTripsActivity extends AppCompatActivity {
         }
     }
 
+
+    /**
+    *get the place of the startPlaceId and the endPlaceId
+    *add the places to placesList
+    *call canContinueToLv() to check if placesList contain all places
+    * @param startPlaceId
+    * @param endPlaceId
+     */
     private void getStartAndEndName(String startPlaceId,String endPlaceId){
         Log.w("Place by id", "here");
         final Place[] myPlaces=new Place[2];
@@ -137,6 +153,8 @@ public class MyTripsActivity extends AppCompatActivity {
                     Log.w("myPlaces-start",myPlaces[0].getName()+"");
                     placeList.add(place);
                     places.release();
+                    sizeOfPlaceList++;
+                    canContinueToLv(sizeOfPlaceList);
 
 
 
@@ -171,14 +189,23 @@ public class MyTripsActivity extends AppCompatActivity {
 
     }
 
+    /**
+   *this method checks if the size of the placesList is equals to
+   * the size fo myTrips List times 2.
+   * * (for each trip their are two places)
+   * if so, it call completeTripListObject() method
+    */
     private void canContinueToLv(int sizeOfPlaceList){
         Log.w("can cuntinue", sizeOfPlaceList+" "+myTrips.size());
-        if(sizeOfPlaceList==myTrips.size()){
+        if(sizeOfPlaceList==myTrips.size()*2){
             Log.w("can cuntinue", "yes");
             completeTripListObject();
         }
     }
 
+    //add the places names to the TripListObject
+    //add user name and phone number to the TripListObject
+    //when finish, call setLvMyTripsRequests()
     private void completeTripListObject(){
         int i = 0;
         for(final TripListObject trip:myTrips){

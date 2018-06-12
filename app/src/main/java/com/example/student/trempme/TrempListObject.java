@@ -1,5 +1,8 @@
 package com.example.student.trempme;
 
+/**
+ * this class extends Tremp object
+ */
 public class TrempListObject extends Tremp {
     private String fromName;
     private String toName;

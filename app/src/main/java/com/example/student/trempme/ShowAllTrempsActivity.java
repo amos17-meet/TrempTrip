@@ -50,71 +50,17 @@ public class ShowAllTrempsActivity extends AppCompatActivity {
         Log.w("allTremps","here");
         setFirebaseVariables();
         setGoogleAPIVar();
+        //static func Helper main activity that keep the screen ltr
         Helper.setDefaultLanguage(this,"en_US ");
-
-
     }
-
-
-
-
-    public void setLvTrempList(){
-        Log.w("LV","here");
-        lvTrempList=findViewById(R.id.lvTrempList);
-        trempListAdapter=new TrempListAdapter(this, 0,0,trempList);
-        lvTrempList.setAdapter(trempListAdapter);
-
-    }
-
-    public void setTrempList(){
-        Query allTremps=myRef.child("tremps").orderByChild("departureTime");
-
-        allTremps.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
-                    tremp = singleSnapshot.getValue(Tremp.class);
-                    Log.w("event listener",tremp.getTrempId()+"");
-                    trempList.add(new TrempListObject(tremp,null,null,null,null));
-
-                    Log.w("event listener",tremp.getFromId()+"");
-
-                }
-
-                //setLvTrempList();
-                setPlaceList();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w("event listener","cancelled");
-
-            }
-
-
-
-
-        });
-
-
-    }
-
-
-
-    private void setPlaceList(){
-        Log.w("PlaceList","here");
-        for(Tremp tremp:trempList){
-            getStartAndEndName(tremp.getFromId(),tremp.getToId());
-
-        }
-    }
-
 
     private void setFirebaseVariables() {
         database = FirebaseDatabase.getInstance();
         userAuth = FirebaseAuth.getInstance().getCurrentUser();
         setMyRef();
     }
+
+    // set the reference to group for the user
     public void setMyRef() {
         Query myUser=database.getReference().child("User").child(userAuth.getUid());
 
@@ -139,6 +85,59 @@ public class ShowAllTrempsActivity extends AppCompatActivity {
         mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
     }
 
+    //set the adapter of the list view to the trempListAdapter object
+    public void setLvTrempList(){
+        Log.w("LV","here");
+        lvTrempList=findViewById(R.id.lvTrempList);
+        trempListAdapter=new TrempListAdapter(this, 0,0,trempList);
+        lvTrempList.setAdapter(trempListAdapter);
+
+    }
+
+    //set trempList to all of the group's tremps
+    //when finish, call setPlaceList()
+    public void setTrempList(){
+        Query allTremps=myRef.child("tremps").orderByChild("departureTime");
+
+        allTremps.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
+                    tremp = singleSnapshot.getValue(Tremp.class);
+                    Log.w("event listener",tremp.getTrempId()+"");
+                    trempList.add(new TrempListObject(tremp,null,null,null,null));
+
+                    Log.w("event listener",tremp.getFromId()+"");
+
+                }
+                setPlaceList();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("event listener","cancelled");
+
+            }
+        });
+    }
+
+    //set the places list
+    //call getStartAndEndName() for each trip
+    private void setPlaceList(){
+        Log.w("PlaceList","here");
+        for(Tremp tremp:trempList){
+            getStartAndEndName(tremp.getFromId(),tremp.getToId());
+
+        }
+    }
+
+    /**
+    *get the place of the startPlaceId and the endPlaceId
+    *add the places to placesList
+    *call canContinueToLv() to check if placesList contain all places
+    * @param startPlaceId
+    * @param endPlaceId
+     */
     private void getStartAndEndName(String startPlaceId,String endPlaceId){
         Log.w("Place by id", "here");
         final Place[] myPlaces=new Place[2];
@@ -190,6 +189,12 @@ public class ShowAllTrempsActivity extends AppCompatActivity {
 
     }
 
+    /**
+     *this method checks if the size of the placesList is equals to
+     * the size fo tr List times 2.
+     * if so, it call completeTrempListObject() method
+     * (for each tremp their are two places)
+     */
     private void canContinueToLv(int sizeOfPlaceList){
         Log.w("can cuntinue", sizeOfPlaceList+" "+trempList.size());
         if(sizeOfPlaceList==trempList.size()*2){
@@ -198,6 +203,9 @@ public class ShowAllTrempsActivity extends AppCompatActivity {
         }
     }
 
+    //add the places names to the TrempListObject
+    //add user name and phone number to the TrempListObject
+    //when finish, call setLvMyTrempsRequests()
     private void completeTrempListObject(){
         int i = 0;
         for(final TrempListObject tremp:trempList){
@@ -213,8 +221,6 @@ public class ShowAllTrempsActivity extends AppCompatActivity {
                         tremp.setUserPhoneNumber(user.getPhoneNumber());
                     }
                     setLvTrempList();
-
-
                 }
 
                 @Override
@@ -224,7 +230,9 @@ public class ShowAllTrempsActivity extends AppCompatActivity {
             });
             i++;
         }
+<<<<<<< HEAD
+=======
+        i++;
+>>>>>>> 7a715390cbc2170e542f271d3da0b18a7c23cf7f
     }
-
-
 }

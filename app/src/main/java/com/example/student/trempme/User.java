@@ -5,6 +5,9 @@ import android.support.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * this class creates the user object
+ */
 public class User {
     @NonNull private String userId;
     private String fullName;

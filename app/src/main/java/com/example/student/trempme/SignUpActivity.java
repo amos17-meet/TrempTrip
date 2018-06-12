@@ -47,6 +47,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         btnSubmit.setOnClickListener(this);
     }
 
+    /**
+     * create new Authentication account
+     * if succeed, create new account and call signIn()
+     */
     private void createAuthAccount(){
         if(etEmail.getText().toString().equals("")||etPassword.getText().toString().equals("")){
             Toast.makeText(this,"some details are missing",Toast.LENGTH_LONG).show();
@@ -72,14 +76,16 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
 
                             }
-
-                            // ...
                         }
 
                     });
         }
     }
 
+    /**
+     * create new user to and post it to database
+     * @return
+     */
     private boolean createUserAccount(){
         if(etEmail.getText().toString().equals("")||etPassword.getText().toString().equals("")){
             Toast.makeText(this,"some details are missing",Toast.LENGTH_LONG).show();
@@ -103,17 +109,22 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View view) {
-        etEmail=findViewById(R.id.etEmail);
-        etPassword=findViewById(R.id.etPassword);
-        etConfirmPassword=findViewById(R.id.etConfirmPassword);
-        if(etPassword.getText().toString().equals(etConfirmPassword.getText().toString())){
-            createAuthAccount();
-        }else{
-            Toast.makeText(SignUpActivity.this,"Passwords Don't Mach",Toast.LENGTH_LONG).show();
+        if(view==btnSubmit){
+            //if the user entered all details call createAuthAccount()
+            etEmail=findViewById(R.id.etEmail);
+            etPassword=findViewById(R.id.etPassword);
+            etConfirmPassword=findViewById(R.id.etConfirmPassword);
+            if(etPassword.getText().toString().equals(etConfirmPassword.getText().toString())){
+                createAuthAccount();
+            }else{
+                Toast.makeText(SignUpActivity.this,"Passwords Don't Mach",Toast.LENGTH_LONG).show();
+            }
         }
-
     }
 
+    /**
+     * after the user created new account, sign in an goto MainActivity
+     */
     private void signIn(){
         mAuth=FirebaseAuth.getInstance();
         mAuth.signInWithEmailAndPassword(etEmail.getText().toString(), etPassword.getText().toString())
@@ -134,7 +145,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                     Toast.LENGTH_SHORT).show();
                         }
 
-                        // ...
                     }
                 });
 

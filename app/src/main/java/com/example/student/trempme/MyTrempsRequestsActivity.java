@@ -46,7 +46,7 @@ public class MyTrempsRequestsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_tremps_requests);
         setFirebaseVariables();
         setGoogleAPIVar();
-
+        //static func Helper main activity that keep the screen ltr
         Helper.setDefaultLanguage(this,"en_US ");
 
     }
@@ -56,6 +56,8 @@ public class MyTrempsRequestsActivity extends AppCompatActivity {
         userAuth = FirebaseAuth.getInstance().getCurrentUser();
         setMyRef();
     }
+
+    // set the reference to group for the user
     public void setMyRef() {
         Query myUser=database.getReference().child("User").child(userAuth.getUid());
 
@@ -80,6 +82,7 @@ public class MyTrempsRequestsActivity extends AppCompatActivity {
         mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
     }
 
+    //set the adapter of the list view to the trempListAdapter object
     public void setLvMyTrempsRequests(){
         Log.w("LV","here");
         lvMyTrempsRequests=findViewById(R.id.lvMyTrempsRequests);
@@ -89,7 +92,8 @@ public class MyTrempsRequestsActivity extends AppCompatActivity {
     }
 
 
-
+    //set myTremps to all of the tremps created
+    //when finish, call setPlaceList()
     public void setMyTremps(){
         Log.w("set my tremps","here");
         Query allMyTremps=myRef.child("tremps").orderByChild("userId").equalTo(userAuth.getUid());
@@ -116,6 +120,8 @@ public class MyTrempsRequestsActivity extends AppCompatActivity {
         });
     }
 
+    //set the places list
+    //call getStartAndEndName() for each tremp
     private void setPlaceList(){
         Log.w("PlaceList","here");
         for(Tremp tremp:myTremps){
@@ -123,6 +129,14 @@ public class MyTrempsRequestsActivity extends AppCompatActivity {
 
         }
     }
+
+    /**
+    *get the place of the startPlaceId and the endPlaceId
+    *add the places to placesList
+    *call canContinueToLv() to check if placesList contain all places
+    * @param startPlaceId
+    * @param endPlaceId
+     */
 
     private void getStartAndEndName(String startPlaceId,String endPlaceId){
         Log.w("Place by id", "here");
@@ -132,7 +146,6 @@ public class MyTrempsRequestsActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<PlaceBufferResponse> task) {
                 if (task.isSuccessful()) {
                     PlaceBufferResponse places = task.getResult();
-
                     Place place = places.get(0).freeze();
                     myPlaces[0]=place;
                     Log.w("Place by id", "Place found: " + place.getName());
@@ -157,7 +170,6 @@ public class MyTrempsRequestsActivity extends AppCompatActivity {
                     myPlaces[1]=place;
                     Log.w("Place by id", "Place found: " + place.getName());
                     Log.w("myPlaces-end"," "+myPlaces[1].getName());
-                    //placeList.add(myPlaces);
                     placeList.add(place);
                     places.release();
                     sizeOfPlaceList++;
@@ -172,6 +184,13 @@ public class MyTrempsRequestsActivity extends AppCompatActivity {
 
     }
 
+
+    /**
+    *this method checks if the size of the placesList is equals to
+    * the size fo myTremps List times 2.
+    * if so, it call completeTrempListObject() method
+    * (for each tremp their are two places)
+     */
     private void canContinueToLv(int sizeOfPlaceList){
         Log.w("can cuntinue", sizeOfPlaceList+" "+myTremps.size());
         if(sizeOfPlaceList==myTremps.size()*2){
@@ -180,6 +199,9 @@ public class MyTrempsRequestsActivity extends AppCompatActivity {
         }
     }
 
+    //add the places names to the TrempListObject
+    //add user name and phone number to the TrempListObject
+    //when finish, call setLvMyTrempsRequests()
     private void completeTrempListObject(){
         int i = 0;
         for(final TrempListObject tremp:myTremps){

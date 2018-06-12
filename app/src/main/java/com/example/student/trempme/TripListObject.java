@@ -1,5 +1,9 @@
 package com.example.student.trempme;
 
+
+/**
+ * this class extends Trip object
+ */
 public class TripListObject extends Trip {
     private String fromName;
     private String toName;
@@ -7,7 +11,6 @@ public class TripListObject extends Trip {
     private String userPhoneNumber;
 
     public TripListObject(Trip trip, String fromName,String toName, String userName, String userPhoneNumber){
-        //super(trip.getTripId(),trip.getFromId(),trip.getToId(),trip.getDepartureTime(),trip.getNumOfAvailableSits(),trip.getUserId());
         super(trip.getTripId(),trip.getFromId(),trip.getToId(),trip.getDepartureTime(),trip.getNumOfAvailableSits(),trip.getUserId(),trip.getTremps());
         this.fromName=fromName;
         this.toName=toName;

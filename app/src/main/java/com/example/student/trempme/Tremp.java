@@ -15,6 +15,9 @@ import com.google.android.gms.tasks.Task;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * this class creates the trenp object
+ */
 public class Tremp {
 
     @NonNull private String trempId;
