@@ -23,6 +23,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -32,15 +33,15 @@ public class NotificationService extends Service {
     Timer timer;
     TimerTask timerTask;
     String TAG = "Timers";
-    int Your_X_SECS = 60;
+    int Your_X_SECS = 180;
 
     FirebaseUser userAuth;
     FirebaseDatabase database;
     DatabaseReference myRef;
 
-    List<Tremp> currentUserTremps=new ArrayList<>();
+    List<Tremp> currentTremps=new ArrayList<>();
     List<String> currentUserTrempsIndex=new ArrayList<>();
-    List<Trip> currentUserTrips=new ArrayList<>();
+    List<Trip> currentTrips=new ArrayList<>();
     List<String> currentUserTripsIndex=new ArrayList<>();
     User user;
 
@@ -178,58 +179,46 @@ public class NotificationService extends Service {
 
     private void hasMatch(){
         Log.w("has match","here");
-        if (currentUserTremps!=null){
-            final int[] currentPosition = new int[1];
-            for (final Tremp tremp : currentUserTremps) {
-                if (!tremp.isNotificationSent()){
-                    final Query allTrips = myRef.child("trips").orderByChild("fromId").equalTo(tremp.getFromId());
-                    allTrips.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                                Trip trip = singleSnapshot.getValue(Trip.class);
-                                if (trip.getToId().equals(tremp.getToId()) && !trip.getUserId().equals(userAuth.getUid())) {
-                                    tremp.setNotificationSent(true);
-                                    myRef.child("tremps").child(currentUserTrempsIndex.get(currentPosition[0])).setValue(tremp);
-                                    sendNotification();
-                                }
-
+        if (currentTremps!=null){
+            //final List<Tremp> newUserTremps=new ArrayList<>();
+            for (final Tremp tremp : currentTremps) {
+                if(tremp.getUserId().equals(userAuth.getUid())){
+                    if (!tremp.isNotificationSent()){
+                        for (Trip trip : currentTrips){
+                            if (trip.getFromId().equals(tremp.getFromId())&&trip.getToId().equals(tremp.getToId()) && !trip.getUserId().equals(userAuth.getUid())) {
+                                currentTremps.remove(tremp);
+                                tremp.setNotificationSent(true);
+                                currentTremps.add(tremp);
+                                sendNotification();
                             }
-                            currentPosition[0]++;
                         }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
+                    }
                 }
-
             }
+            myRef.child("tremps").setValue(currentTremps);
+            currentTremps.clear();
+            myRef.child("trips").setValue(currentTrips);
+            currentTrips.clear();
+
         }
 
     }
 
     private void deleteTrempOrTrip(){
-        final Query groupTremps=myRef.child("tremps");
+        Query groupTremps=myRef.child("tremps");
 
         Log.w("PRINT QUERY",groupTremps+"");
 
-        groupTremps.addValueEventListener(new ValueEventListener() {
+        groupTremps.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.w("deleteTrempOrTrip","dataChange-tremp");
                 long currentTime= System.currentTimeMillis();
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
                    Tremp tremp =singleSnapshot.getValue(Tremp.class);
+                   currentTremps.add(tremp);
                    if(tremp.getDepartureTime()+3600000*24<currentTime){
-                        myRef.child("tremps").child(singleSnapshot.getKey()).removeValue();
-                   }
-                   else{
-                       if(tremp.getUserId().equals(userAuth.getUid())){
-                           currentUserTremps.add(tremp);
-                           currentUserTrempsIndex.add(singleSnapshot.getKey());
-                       }
+                        currentTremps.remove(tremp);
                    }
                 }
             }
@@ -239,26 +228,20 @@ public class NotificationService extends Service {
             }
         });
 
-        final Query groupTrips=myRef.child("trips");
+        Query groupTrips=myRef.child("trips");
 
         Log.w("PRINT QUERY",groupTrips+"");
 
-        groupTrips.addValueEventListener(new ValueEventListener() {
+        groupTrips.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.w("deleteTrempOrTrip","dataChange-tremp");
                 long currentTime= System.currentTimeMillis();
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
                     Trip trip =singleSnapshot.getValue(Trip.class);
+                    currentTrips.add(trip);
                     if(trip.getDepartureTime()+3600000*24<currentTime){
-                        myRef.child("trips").child(singleSnapshot.getKey()).removeValue();
-                    }
-                    else{
-                        if(trip.getUserId().equals(userAuth.getUid())){
-                            currentUserTrips.add(trip);
-                        }
-
-
+                        currentTrips.remove(trip);
                     }
                 }
                 hasMatch();
@@ -267,7 +250,9 @@ public class NotificationService extends Service {
             public void onCancelled(DatabaseError databaseError) {
                 Log.e("TAG", "onCancelled", databaseError.toException());
             }
+
         });
+
     }
 
     private void setFirebaseVariables() {
