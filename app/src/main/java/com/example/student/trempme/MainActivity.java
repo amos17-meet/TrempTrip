@@ -268,7 +268,7 @@ public class MainActivity extends AppCompatActivity{
         super.onNewIntent(intent);
         //if their is no internet connection, close app
         if(intent.getBooleanExtra("close_activity",false)){
-            this.finish();
+            System.exit(0);
 
         }
     }
