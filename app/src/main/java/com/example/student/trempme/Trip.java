@@ -6,7 +6,9 @@ import android.util.Log;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
+/**
+ * this class creates the trip object
+ */
 public class Trip {
     @NonNull private String tripId;
     private String fromId;

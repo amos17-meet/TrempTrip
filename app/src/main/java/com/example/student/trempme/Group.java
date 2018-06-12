@@ -5,6 +5,9 @@ import android.support.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * this class creates the group object
+ */
 public class Group {
     @NonNull private String groupId;
     private String groupName;

@@ -19,7 +19,13 @@ public class TripListAdapter extends ArrayAdapter<TripListObject> {
     Context context;
     List<TripListObject> trips;
 
-
+    /**
+     * constructor for the TrempListAdapter
+     * @param context
+     * @param resource
+     * @param textViewResourceId
+     * @param trips
+     */
     public TripListAdapter(Context context, int resource, int textViewResourceId, List<TripListObject> trips) {
         super(context, resource, textViewResourceId, trips);
         this.context=context;
@@ -28,6 +34,13 @@ public class TripListAdapter extends ArrayAdapter<TripListObject> {
 
     }
 
+    /**
+     * creates the list item layout and return it
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 

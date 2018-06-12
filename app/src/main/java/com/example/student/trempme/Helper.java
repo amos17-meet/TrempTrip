@@ -35,6 +35,7 @@ public class Helper {
         return true;
     }
 
+    //send an intent to main activity with message to close the app
     public static void closeApp(Context context){
         Intent i = new Intent(context, MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

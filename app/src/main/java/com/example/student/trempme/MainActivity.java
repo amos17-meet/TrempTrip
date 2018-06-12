@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity{
         mNetworkReceiver = new NetworkChangedReceiver();
         registerNetworkBroadcast();
         SetIntentButtons();
-        //static func from main activity that keep the screen ltr
+        //static func Helper main activity that keep the screen ltr
         Helper.setDefaultLanguage(this,"en_US ");
 
 
@@ -266,9 +266,9 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        //if their is no internet connection, close app
+        //if their is no internet connection, close  app
         if(intent.getBooleanExtra("close_activity",false)){
-            this.finish();
+            System.exit(0);
 
         }
     }

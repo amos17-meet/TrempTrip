@@ -49,11 +49,42 @@ public class ShowAllTripsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_all_trips);
         setFirebaseVariables();
         setGoogleAPIVar();
+        //static func Helper main activity that keep the screen ltr
         Helper.setDefaultLanguage(this,"en_US ");
     }
 
+    private void setFirebaseVariables() {
+        database = FirebaseDatabase.getInstance();
+        userAuth = FirebaseAuth.getInstance().getCurrentUser();
+        setMyRef();
+    }
 
+    // set the reference to group for the user
+    public void setMyRef() {
+        Query myUser=database.getReference().child("User").child(userAuth.getUid());
 
+        myUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.w("setMyRef",dataSnapshot.toString());
+                String groupOfUser=dataSnapshot.getValue(String.class);
+                myRef=database.getReference().child("Group").child(groupOfUser);
+                setTripList();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void setGoogleAPIVar(){
+        mGeoDataClient = Places.getGeoDataClient(this, null);
+        mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
+    }
+
+    //set the adapter of the list view to the tripListAdapter object
     public void setLvTripList(){
         Log.w("LV","here");
         lvTripList=findViewById(R.id.lvTrempList);
@@ -62,6 +93,8 @@ public class ShowAllTripsActivity extends AppCompatActivity {
 
     }
 
+    //set tripList to all of the group's trips
+    //when finish, call setPlaceList()
     public void setTripList(){
         Query allTrips=myRef.child("trips").orderByChild("departureTime");
 
@@ -93,6 +126,8 @@ public class ShowAllTripsActivity extends AppCompatActivity {
 
     }
 
+    //set the places list
+    //call getStartAndEndName() for each trip
     private void setPlaceList(){
         Log.w("PlaceList","here");
         for(Trip trip:tripList){
@@ -102,35 +137,13 @@ public class ShowAllTripsActivity extends AppCompatActivity {
     }
 
 
-    private void setFirebaseVariables() {
-        database = FirebaseDatabase.getInstance();
-        userAuth = FirebaseAuth.getInstance().getCurrentUser();
-        setMyRef();
-    }
-    public void setMyRef() {
-        Query myUser=database.getReference().child("User").child(userAuth.getUid());
-
-        myUser.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.w("setMyRef",dataSnapshot.toString());
-                String groupOfUser=dataSnapshot.getValue(String.class);
-                myRef=database.getReference().child("Group").child(groupOfUser);
-                setTripList();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void setGoogleAPIVar(){
-        mGeoDataClient = Places.getGeoDataClient(this, null);
-        mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
-    }
-
+    /**
+    *get the place of the startPlaceId and the endPlaceId
+    *add the places to placesList
+    *call canContinueToLv() to check if placesList contain all places
+    * @param startPlaceId
+    * @param endPlaceId
+     */
     private void getStartAndEndName(String startPlaceId,String endPlaceId){
         Log.w("Place by id", "here");
         final Place[] myPlaces=new Place[2];
@@ -177,6 +190,12 @@ public class ShowAllTripsActivity extends AppCompatActivity {
 
     }
 
+     /**
+     *this method checks if the size of the placesList is equals to
+     * the size fo tripList List times 2.
+     * * (for each trip their are two places)
+     * if so, it call completeTripListObject() method
+     */
     private void canContinueToLv(int sizeOfPlaceList){
         Log.w("can cuntinue", sizeOfPlaceList+" "+tripList.size());
         if(sizeOfPlaceList==tripList.size()){
@@ -185,6 +204,9 @@ public class ShowAllTripsActivity extends AppCompatActivity {
         }
     }
 
+    //add the places names to the TripListObject
+    //add user name and phone number to the TripListObject
+    //when finish, call setLvMyTripsRequests()
     private void completeTripListObject(){
         int i = 0;
         for(final TripListObject trip:tripList){
@@ -200,8 +222,6 @@ public class ShowAllTripsActivity extends AppCompatActivity {
                         trip.setUserPhoneNumber(user.getPhoneNumber());
                     }
                     setLvTripList();
-
-
                 }
 
                 @Override
@@ -209,11 +229,7 @@ public class ShowAllTripsActivity extends AppCompatActivity {
 
                 }
             });
-
         }
         i++;
-
     }
-
-
 }

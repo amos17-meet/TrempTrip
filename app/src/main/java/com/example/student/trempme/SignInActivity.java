@@ -42,6 +42,10 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         btnSignIn.setOnClickListener(this);
     }
 
+    /**
+     * check if user connected
+     * if so, go back to MainActivity
+     */
     private void isUserConnected(){
         Log.w("isUserConnected","here");
         if(FirebaseAuth.getInstance().getCurrentUser()!=null){
@@ -54,6 +58,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
         if(view==btnSignIn) {
+            //the user try to sign in
+            //if he entered all details and has an account goto MainActivity
             etEmail = findViewById(R.id.etEmail);
             etPassword=findViewById(R.id.etPassword);
             if(etEmail.getText().toString().equals("")||etPassword.getText().toString().equals("")){
@@ -88,6 +94,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         if(view==btnGoToSignUp){
+            //goto SignUpActivity
             Intent intent=new Intent(SignInActivity.this,SignUpActivity.class);
             startActivity(intent);
 
