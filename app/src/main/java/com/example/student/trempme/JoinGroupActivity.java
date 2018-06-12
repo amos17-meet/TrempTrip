@@ -72,7 +72,7 @@ public class JoinGroupActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View view) {
         if(view==btnJoinGroup){
             etGroupName=findViewById(R.id.etGroupName);
-            addUserToGroup(etGroupName.getText().toString());
+            addUserToGroup(etGroupName.getText().toString().toLowerCase());
         }
 
         if (view==btnGoToNewGroup){

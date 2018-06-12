@@ -58,8 +58,11 @@ public class ShowAllTripsActivity extends AppCompatActivity {
         userAuth = FirebaseAuth.getInstance().getCurrentUser();
         setMyRef();
     }
+<<<<<<< HEAD
+=======
 
     // set the reference to group for the user
+>>>>>>> 7a715390cbc2170e542f271d3da0b18a7c23cf7f
     public void setMyRef() {
         Query myUser=database.getReference().child("User").child(userAuth.getUid());
 
@@ -78,6 +81,15 @@ public class ShowAllTripsActivity extends AppCompatActivity {
             }
         });
     }
+<<<<<<< HEAD
+
+    private void setGoogleAPIVar(){
+        mGeoDataClient = Places.getGeoDataClient(this, null);
+        mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
+    }
+
+=======
+>>>>>>> 7a715390cbc2170e542f271d3da0b18a7c23cf7f
 
     private void setGoogleAPIVar(){
         mGeoDataClient = Places.getGeoDataClient(this, null);
@@ -137,6 +149,10 @@ public class ShowAllTripsActivity extends AppCompatActivity {
     }
 
 
+<<<<<<< HEAD
+
+
+=======
     /**
     *get the place of the startPlaceId and the endPlaceId
     *add the places to placesList
@@ -144,6 +160,7 @@ public class ShowAllTripsActivity extends AppCompatActivity {
     * @param startPlaceId
     * @param endPlaceId
      */
+>>>>>>> 7a715390cbc2170e542f271d3da0b18a7c23cf7f
     private void getStartAndEndName(String startPlaceId,String endPlaceId){
         Log.w("Place by id", "here");
         final Place[] myPlaces=new Place[2];
@@ -152,13 +169,14 @@ public class ShowAllTripsActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<PlaceBufferResponse> task) {
                 if (task.isSuccessful()) {
                     PlaceBufferResponse places = task.getResult();
-
                     Place place = places.get(0).freeze();
                     myPlaces[0]=place;
                     Log.w("Place by id", "Place found: " + place.getName());
                     Log.w("myPlaces-start",myPlaces[0].getName()+"");
                     placeList.add(place);
                     places.release();
+                    sizeOfPlaceList++;
+                    canContinueToLv(sizeOfPlaceList);
                 } else {
                     Log.w("Place by id", "Place not found.");
                 }
@@ -198,7 +216,7 @@ public class ShowAllTripsActivity extends AppCompatActivity {
      */
     private void canContinueToLv(int sizeOfPlaceList){
         Log.w("can cuntinue", sizeOfPlaceList+" "+tripList.size());
-        if(sizeOfPlaceList==tripList.size()){
+        if(sizeOfPlaceList==tripList.size()*2){
             Log.w("can cuntinue", "yes");
             completeTripListObject();
         }
@@ -229,7 +247,12 @@ public class ShowAllTripsActivity extends AppCompatActivity {
 
                 }
             });
+<<<<<<< HEAD
+            i++;
+        }
+=======
         }
         i++;
+>>>>>>> 7a715390cbc2170e542f271d3da0b18a7c23cf7f
     }
 }

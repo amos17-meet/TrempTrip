@@ -226,10 +226,8 @@ public class MyTrempsRequestsActivity extends AppCompatActivity {
 
                 }
             });
-
+            i++;
         }
-        i++;
-
     }
 
 
