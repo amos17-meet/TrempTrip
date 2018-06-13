@@ -179,27 +179,39 @@ public class NotificationService extends Service {
 
     private void hasMatch(){
         Log.w("has match","here");
+        boolean needToSendNotification=false;
         if (currentTremps!=null){
-            //final List<Tremp> newUserTremps=new ArrayList<>();
-            for (final Tremp tremp : currentTremps) {
+            List<Tremp> newCurrentTremps=new ArrayList<>();
+            copyList(currentTremps,newCurrentTremps);
+            for (Tremp tremp : currentTremps) {
                 if(tremp.getUserId().equals(userAuth.getUid())){
                     if (!tremp.isNotificationSent()){
                         for (Trip trip : currentTrips){
                             if (trip.getFromId().equals(tremp.getFromId())&&trip.getToId().equals(tremp.getToId()) && !trip.getUserId().equals(userAuth.getUid())) {
-                                currentTremps.remove(tremp);
+                                newCurrentTremps.remove(tremp);
                                 tremp.setNotificationSent(true);
-                                currentTremps.add(tremp);
-                                sendNotification();
+                                newCurrentTremps.add(tremp);
+                                needToSendNotification=true;
                             }
                         }
                     }
                 }
             }
+            myRef.child("tremps").setValue(newCurrentTremps);
+            currentTremps.clear();
+            newCurrentTremps.clear();
+            myRef.child("trips").setValue(currentTrips);
+            currentTrips.clear();
+
+        }else{
             myRef.child("tremps").setValue(currentTremps);
             currentTremps.clear();
             myRef.child("trips").setValue(currentTrips);
             currentTrips.clear();
 
+        }
+        if(needToSendNotification){
+            sendNotification();
         }
 
     }
@@ -284,6 +296,12 @@ public class NotificationService extends Service {
 
             }
         });
+    }
+
+    private void copyList(List<Tremp> oldTremps, List<Tremp> newTremps){
+        for(Tremp tremp : oldTremps){
+            newTremps.add(tremp);
+        }
     }
 
 

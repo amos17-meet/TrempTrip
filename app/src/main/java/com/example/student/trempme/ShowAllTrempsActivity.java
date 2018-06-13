@@ -129,9 +129,8 @@ public class ShowAllTrempsActivity extends AppCompatActivity {
     //call getStartAndEndName() for each trip
     private void setPlaceList(){
         Log.w("PlaceList","here");
-        for(Tremp tremp:trempList){
+        for(TrempListObject tremp:trempList){
             getStartAndEndName(tremp.getFromId(),tremp.getToId());
-
         }
     }
 
@@ -215,7 +214,7 @@ public class ShowAllTrempsActivity extends AppCompatActivity {
         for(final TrempListObject tremp:trempList){
             tremp.setFromName(placeList.get(i *2).getName().toString());
             tremp.setToName(placeList.get((i *2)+1).getName().toString());
-            Query userQuery=myRef.child("users").orderByChild("userId").equalTo(userAuth.getUid());
+            Query userQuery=myRef.child("users").orderByChild("userId").equalTo(tremp.getUserId());
             userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {

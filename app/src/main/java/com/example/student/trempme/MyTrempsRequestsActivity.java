@@ -207,7 +207,7 @@ public class MyTrempsRequestsActivity extends AppCompatActivity {
         for(final TrempListObject tremp:myTremps){
             tremp.setFromName(placeList.get(i *2).getName().toString());
             tremp.setToName(placeList.get((i *2)+1).getName().toString());
-            Query userQuery=myRef.child("users").orderByChild("userId").equalTo(userAuth.getUid());
+            Query userQuery=myRef.child("users").orderByChild("userId").equalTo(tremp.getUserId());
             userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {

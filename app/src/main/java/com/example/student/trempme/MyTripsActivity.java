@@ -215,7 +215,7 @@ public class MyTripsActivity extends AppCompatActivity {
         for(final TripListObject trip:myTrips){
             trip.setFromName(placeList.get(i *2).getName().toString());
             trip.setToName(placeList.get((i *2)+1).getName().toString());
-            Query userQuery=myRef.child("users").orderByChild("userId").equalTo(userAuth.getUid());
+            Query userQuery=myRef.child("users").orderByChild("userId").equalTo(trip.getUserId());
             userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
