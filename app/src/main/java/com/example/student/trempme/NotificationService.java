@@ -40,9 +40,7 @@ public class NotificationService extends Service {
     DatabaseReference myRef;
 
     List<Tremp> currentTremps=new ArrayList<>();
-    List<String> currentUserTrempsIndex=new ArrayList<>();
     List<Trip> currentTrips=new ArrayList<>();
-    List<String> currentUserTripsIndex=new ArrayList<>();
     User user;
 
     //we are going to use a handler to be able to run in our TimerTask
@@ -110,9 +108,7 @@ public class NotificationService extends Service {
                 //use a handler to run a toast that shows the current timestamp
                 handler.post(new Runnable() {
                     public void run() {
-
                         deleteTrempOrTrip();
-
                     }
                 });
             }
@@ -303,8 +299,4 @@ public class NotificationService extends Service {
             newTremps.add(tremp);
         }
     }
-
-
-
-
 }
