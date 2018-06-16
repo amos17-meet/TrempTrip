@@ -37,6 +37,14 @@ import com.google.android.gms.location.places.PlaceLikelihood;
 import com.google.android.gms.location.places.PlaceLikelihoodBufferResponse;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -55,7 +63,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class CreateNewTripActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
+public class CreateNewTripActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, OnMapReadyCallback {
 
     TextView tvStartPlace;
     private final int PLACE_AUTOCOMPLETE_REQUEST_CODE_FROM = 1;
@@ -77,8 +85,10 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
     private int numberOfTrempists;
     private String toId;
     private String fromId;
-    private double startLat;
-    private double stringLon;
+
+    private Place fromPlace;
+    private Place toPlace;
+
 
 
     FirebaseUser userAuth;
@@ -265,9 +275,9 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
                             .build(this);
             startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE_FROM);
         } catch (GooglePlayServicesRepairableException e) {
-            // TODO: Handle the error.
+
         } catch (GooglePlayServicesNotAvailableException e) {
-            // TODO: Handle the error.
+
         }
 
     }
@@ -287,9 +297,9 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
                             .build(this);
             startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE_TO);
         } catch (GooglePlayServicesRepairableException e) {
-            // TODO: Handle the error.
+
         } catch (GooglePlayServicesNotAvailableException e) {
-            // TODO: Handle the error.
+
         }
 
 
@@ -309,9 +319,9 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
                 tvStartPlace.setText(place.getName());
                 //set the fromId to the placeId
                 fromId = place.getId();
-                startLat = place.getLatLng().latitude;
-                stringLon = place.getLatLng().longitude;
+                fromPlace=place;
                 Log.w("TAG-onActivityResult", "Place: " + place.getName());
+                setMap();
                 //autocompleteFragmentEditTextFrom.setText(place.getName());
             // if something went wrong
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
@@ -333,7 +343,9 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
                 //set the tvStartPlace to the place name
                 tvEndPlace.setText(place.getName());
                 toId = place.getId();
+                toPlace=place;
                 Log.w("TAG-onActivityResult", "Place: " + place.getName());
+                setMap();
                 //autocompleteFragmentEditTextTo.setText(place.getName());
                 // if something went wrong
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
@@ -403,7 +415,7 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
         };
 
         //create the dialog
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, myDateListener, chosenYear, chosenMonth, chosenDayOfMonth);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, myDateListener, chosenYear, chosenMonth-1, chosenDayOfMonth);
         //present the dialog
         datePickerDialog.show();
 
@@ -572,9 +584,60 @@ public class CreateNewTripActivity extends AppCompatActivity implements GoogleAp
                     }
                     fromId=maxLikelihoodPlace.getId();
                     tvStartPlace.setText(maxLikelihoodPlace.getName());
+                    fromPlace=maxLikelihoodPlace;
                     likelyPlaces.release();
+                    setMap();
                 }
             });
+        }
+
+    }
+
+    private void setMap(){
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+
+    }
+
+
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        googleMap.clear();
+        // Add a marker in Sydney, Australia,
+        // and move the map's camera to the same location.
+        if(fromPlace!=null&&toPlace!=null){
+            LatLng from = new LatLng(fromPlace.getLatLng().latitude,fromPlace.getLatLng().longitude);
+            LatLng to = new LatLng(toPlace.getLatLng().latitude,toPlace.getLatLng().longitude);
+            googleMap.addMarker(new MarkerOptions().position(from)
+                    .title(""));
+            googleMap.addMarker(new MarkerOptions().position(to)
+                    .title(""));
+
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            builder.include(from);
+            builder.include(to);
+            LatLngBounds bounds = builder.build();
+            int padding = 130; // offset from edges of the map in pixels
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+            googleMap.moveCamera(cu);
+            googleMap.animateCamera(cu);
+//            googleMap.moveCamera(CameraUpdateFactory.newLatLng(from));
+//            float zoomLevel = (float) 11.0;
+//            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(from, zoomLevel));
+
+        }else{
+            if(fromPlace!=null){
+                LatLng from = new LatLng(fromPlace.getLatLng().latitude,fromPlace.getLatLng().longitude);
+                googleMap.addMarker(new MarkerOptions().position(from)
+                        .title(""));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(from));
+                float zoomLevel = (float) 11.0;
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(from, zoomLevel));
+            }
+
         }
 
     }

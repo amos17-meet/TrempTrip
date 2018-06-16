@@ -56,8 +56,8 @@ public class NotificationService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId){
         Log.e(TAG, "onStartCommand");
         super.onStartCommand(intent, flags, startId);
-        setFirebaseVariables();
 
+        startTimer();
 
         return START_STICKY;
     }
@@ -108,7 +108,7 @@ public class NotificationService extends Service {
                 //use a handler to run a toast that shows the current timestamp
                 handler.post(new Runnable() {
                     public void run() {
-                        deleteTrempOrTrip();
+                        startConnemd();
                     }
                 });
             }
@@ -146,32 +146,32 @@ public class NotificationService extends Service {
         nManager.notify(NOTIFICATION_ID, builder.build());
     }
 
-    private void checkForMatchTrempToTrip(){
-
-        final Query myUser=myRef.child("users").orderByChild("userId").equalTo(userAuth.getUid());
-
-        Log.w("PRINT QUERY",myUser+"");
-
-        myUser.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.w("look for match", dataSnapshot.toString());
-                for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
-
-                }
-//                user = dataSnapshot.getValue(User.class);
-//                deleteTrempOrTrip();
-
-
-
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e("TAG", "onCancelled", databaseError.toException());
-            }
-        });
-
-    }
+//    private void checkForMatchTrempToTrip(){
+//
+//        final Query myUser=myRef.child("users").orderByChild("userId").equalTo(userAuth.getUid());
+//
+//        Log.w("PRINT QUERY",myUser+"");
+//
+//        myUser.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                Log.w("look for match", dataSnapshot.toString());
+//                for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
+//
+//                }
+////                user = dataSnapshot.getValue(User.class);
+////                deleteTrempOrTrip();
+//
+//
+//
+//            }
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                Log.e("TAG", "onCancelled", databaseError.toException());
+//            }
+//        });
+//
+//    }
 
     private void hasMatch(){
         Log.w("has match","here");
@@ -179,37 +179,49 @@ public class NotificationService extends Service {
         if (currentTremps!=null){
             List<Tremp> newCurrentTremps=new ArrayList<>();
             copyList(currentTremps,newCurrentTremps);
+            int i=0;
             for (Tremp tremp : currentTremps) {
                 if(tremp.getUserId().equals(userAuth.getUid())){
                     if (!tremp.isNotificationSent()){
                         for (Trip trip : currentTrips){
                             if (trip.getFromId().equals(tremp.getFromId())&&trip.getToId().equals(tremp.getToId()) && !trip.getUserId().equals(userAuth.getUid())) {
-                                newCurrentTremps.remove(tremp);
-                                tremp.setNotificationSent(true);
-                                newCurrentTremps.add(tremp);
-                                needToSendNotification=true;
+                                if(isTimeClose(tremp,trip)){
+                                    newCurrentTremps.remove(i);
+                                    tremp.setNotificationSent(true);
+                                    newCurrentTremps.add(tremp);
+                                    needToSendNotification=true;
+                                }
+
                             }
                         }
                     }
                 }
+                i++;
             }
             myRef.child("tremps").setValue(newCurrentTremps);
             currentTremps.clear();
             newCurrentTremps.clear();
-            myRef.child("trips").setValue(currentTrips);
             currentTrips.clear();
 
         }else{
             myRef.child("tremps").setValue(currentTremps);
             currentTremps.clear();
-            myRef.child("trips").setValue(currentTrips);
             currentTrips.clear();
 
         }
         if(needToSendNotification){
             sendNotification();
         }
+    }
 
+    private boolean isTimeClose(Tremp tremp, Trip trip){
+        boolean timeClose=false;
+
+        long trempTime=tremp.getDepartureTime();
+        long tripTime=trip.getDepartureTime();
+        if(Math.abs(trempTime-tripTime)<3600000*2)
+            timeClose=true;
+        return timeClose;
     }
 
     private void deleteTrempOrTrip(){
@@ -252,6 +264,7 @@ public class NotificationService extends Service {
                         currentTrips.remove(trip);
                     }
                 }
+                myRef.child("trips").setValue(currentTrips);
                 hasMatch();
             }
             @Override
@@ -261,6 +274,10 @@ public class NotificationService extends Service {
 
         });
 
+    }
+
+    public void startConnemd(){
+        setFirebaseVariables();
     }
 
     private void setFirebaseVariables() {
@@ -283,7 +300,7 @@ public class NotificationService extends Service {
                     Log.w("setMyRef",dataSnapshot.toString());
                     String groupOfUser=dataSnapshot.getValue(String.class);
                     myRef=database.getReference().child("Group").child(groupOfUser);
-                    startTimer();
+                    deleteTrempOrTrip();
                 }
             }
 

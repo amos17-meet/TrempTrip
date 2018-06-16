@@ -48,11 +48,13 @@ import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -75,7 +77,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
-public class AskForTrempActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
+public class AskForTrempActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, OnMapReadyCallback {
 
 
     TextView tvStartPlace;
@@ -100,8 +102,8 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
     private String toId;
     private String fromId;
 
-//    private Place fromPlace;
-//    private Place toPlace;
+    private Place fromPlace;
+    private Place toPlace;
 
 
     FirebaseUser userAuth;
@@ -347,9 +349,9 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
                 tvStartPlace.setText(place.getName());
                 //set the fromId to the placeId
                 fromId = place.getId();
-//                fromPlace=place;
+                fromPlace=place;
                 Log.w("TAG-onActivityResult", "Place: " + place.getName());
-//                setMap();
+                setMap();
             // if something went wrong
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(this, data);
@@ -371,9 +373,9 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
                 tvEndPlace.setText(place.getName());
                 //set the toId to the placeId
                 toId = place.getId();
-//                toPlace=place;
+                toPlace=place;
                 Log.w("TAG-onActivityResult", "Place: " + place.getName());
-//                setMap();
+                setMap();
                 //autocompleteFragmentEditTextTo.setText(place.getName());
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(this, data);
@@ -617,7 +619,8 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
 
                     }
                     fromId=maxLikelihoodPlace.getId();
-//                    fromPlace=maxLikelihoodPlace;
+                    fromPlace=maxLikelihoodPlace;
+                    setMap();
                     tvStartPlace.setText(maxLikelihoodPlace.getName());
                     likelyPlaces.release();
                 }
@@ -628,26 +631,52 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
 
     }
 
-//    private void setMap(){
-//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-//                .findFragmentById(R.id.map);
-//        mapFragment.getMapAsync(this);
-//
-//    }
-//
-//    @Override
-//    public void onMapReady(GoogleMap googleMap) {
-//        // Add a marker in Sydney, Australia,
-//        // and move the map's camera to the same location.
-//        if(fromPlace!=null&&toPlace!=null){
-//            LatLng from = new LatLng(fromPlace.getLatLng().latitude,fromPlace.getLatLng().longitude);
-//            LatLng to = new LatLng(toPlace.getLatLng().latitude,toPlace.getLatLng().longitude);
-//            googleMap.addMarker(new MarkerOptions().position(from)
-//                    .title(""));
-//            googleMap.addMarker(new MarkerOptions().position(to)
-//                    .title(""));
+    private void setMap(){
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+
+    }
+
+
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        googleMap.clear();
+        // Add a marker in Sydney, Australia,
+        // and move the map's camera to the same location.
+        if(fromPlace!=null&&toPlace!=null){
+            LatLng from = new LatLng(fromPlace.getLatLng().latitude,fromPlace.getLatLng().longitude);
+            LatLng to = new LatLng(toPlace.getLatLng().latitude,toPlace.getLatLng().longitude);
+            googleMap.addMarker(new MarkerOptions().position(from)
+                    .title(""));
+            googleMap.addMarker(new MarkerOptions().position(to)
+                    .title(""));
+
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            builder.include(from);
+            builder.include(to);
+            LatLngBounds bounds = builder.build();
+            int padding = 130; // offset from edges of the map in pixels
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+            googleMap.moveCamera(cu);
+            googleMap.animateCamera(cu);
 //            googleMap.moveCamera(CameraUpdateFactory.newLatLng(from));
-//        }
-//
-//    }
+//            float zoomLevel = (float) 11.0;
+//            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(from, zoomLevel));
+
+        }else{
+            if(fromPlace!=null){
+                LatLng from = new LatLng(fromPlace.getLatLng().latitude,fromPlace.getLatLng().longitude);
+                googleMap.addMarker(new MarkerOptions().position(from)
+                        .title(""));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(from));
+                float zoomLevel = (float) 11.0;
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(from, zoomLevel));
+            }
+
+        }
+
+    }
 }
