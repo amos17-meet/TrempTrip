@@ -3,8 +3,11 @@ package com.example.student.trempme;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.location.Location;
 import android.location.LocationManager;
 import android.util.Log;
+
+import com.google.android.gms.location.places.Place;
 
 import java.util.Locale;
 
@@ -42,5 +45,21 @@ public class Helper {
         i.addFlags (Intent.FLAG_ACTIVITY_SINGLE_TOP);
         i.putExtra("close_activity",true);
         context.startActivity(i);
+    }
+
+    public static float distance (Place aPlace, Place bPlace){
+        Location locationA = new Location("point A");
+
+        locationA.setLatitude(aPlace.getLatLng().latitude);
+        locationA.setLongitude(aPlace.getLatLng().longitude);
+
+        Location locationB = new Location("point B");
+
+        locationB.setLatitude(bPlace.getLatLng().latitude);
+        locationB.setLongitude(bPlace.getLatLng().longitude);
+
+        float distance = locationA.distanceTo(locationB);
+
+        return distance;
     }
 }

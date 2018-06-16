@@ -662,6 +662,7 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
             googleMap.moveCamera(cu);
             googleMap.animateCamera(cu);
+            Log.w("destination is", Helper.distance(fromPlace,toPlace)+"");
 //            googleMap.moveCamera(CameraUpdateFactory.newLatLng(from));
 //            float zoomLevel = (float) 11.0;
 //            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(from, zoomLevel));
@@ -679,4 +680,7 @@ public class AskForTrempActivity extends AppCompatActivity implements GoogleApiC
         }
 
     }
+
+
+
 }

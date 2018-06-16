@@ -8,11 +8,18 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
+import com.google.android.gms.location.places.GeoDataClient;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceBufferResponse;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -108,7 +115,7 @@ public class NotificationService extends Service {
                 //use a handler to run a toast that shows the current timestamp
                 handler.post(new Runnable() {
                     public void run() {
-                        startConnemd();
+                        startCommend();
                     }
                 });
             }
@@ -184,6 +191,7 @@ public class NotificationService extends Service {
                 if(tremp.getUserId().equals(userAuth.getUid())){
                     if (!tremp.isNotificationSent()){
                         for (Trip trip : currentTrips){
+                            //if (isShortDistance(tremp.getFromId(),trip.getFromId())&&isShortDistance(tremp.getToId(),trip.getToId())&& !trip.getUserId().equals(userAuth.getUid())) {
                             if (trip.getFromId().equals(tremp.getFromId())&&trip.getToId().equals(tremp.getToId()) && !trip.getUserId().equals(userAuth.getUid())) {
                                 if(isTimeClose(tremp,trip)){
                                     newCurrentTremps.remove(i);
@@ -276,7 +284,7 @@ public class NotificationService extends Service {
 
     }
 
-    public void startConnemd(){
+    public void startCommend(){
         setFirebaseVariables();
     }
 
@@ -316,4 +324,67 @@ public class NotificationService extends Service {
             newTremps.add(tremp);
         }
     }
+
+//    private Place getPlace(String placeId){
+//        final Place[] place = new Place[1];
+//        GeoDataClient mGeoDataClient = Places.getGeoDataClient(this, null);
+//        mGeoDataClient.getPlaceById(placeId).addOnCompleteListener(new OnCompleteListener<PlaceBufferResponse>() {
+//            @Override
+//            public void onComplete(@NonNull Task<PlaceBufferResponse> task) {
+//                if (task.isSuccessful()) {
+//                    PlaceBufferResponse places = task.getResult();
+//                    place[0] = places.get(0).freeze();
+//                    Log.w("Place by id", "Place found: " + place[0].getName());
+//                } else {
+//                    Log.w("Place by id", "Place not found.");
+//                }
+//            }
+//
+//        });
+//        return place[0];
+//    }
+//
+//    private boolean isShortDistance(String aPlaceId, String bPlaceId){
+//        final boolean[] shortDistance = {false};
+//        final Place[] aPlace = new Place[1];
+//        GeoDataClient mGeoDataClient = Places.getGeoDataClient(this, null);
+//        mGeoDataClient.getPlaceById(aPlaceId).addOnCompleteListener(new OnCompleteListener<PlaceBufferResponse>() {
+//            @Override
+//            public void onComplete(@NonNull Task<PlaceBufferResponse> task) {
+//                if (task.isSuccessful()) {
+//                    PlaceBufferResponse places = task.getResult();
+//                    aPlace[0] = places.get(0).freeze();
+//                    Log.w("Place by id", "Place found: " + aPlace[0].getName());
+//                } else {
+//                    Log.w("Place by id", "Place not found.");
+//                }
+//            }
+//
+//        });
+//
+//        final Place[] bPlace = new Place[1];
+//        mGeoDataClient.getPlaceById(bPlaceId).addOnCompleteListener(new OnCompleteListener<PlaceBufferResponse>() {
+//            @Override
+//            public void onComplete(@NonNull Task<PlaceBufferResponse> task) {
+//                if (task.isSuccessful()) {
+//                    PlaceBufferResponse places = task.getResult();
+//                    bPlace[0] = places.get(0).freeze();
+//                    Log.w("Place by id", "Place found: " + bPlace[0].getName());
+//                    if(Helper.distance(aPlace[0],bPlace[0])<1500){
+//                        shortDistance[0] =true;
+//                    }
+//                } else {
+//                    Log.w("Place by id", "Place not found.");
+//                }
+//            }
+//
+//        });
+////        Place aPlace=getPlace(aPlaceId);
+////        Place bPlace=getPlace(bPlaceId);
+//
+//
+//        return shortDistance[0];
+//    }
+
+
 }

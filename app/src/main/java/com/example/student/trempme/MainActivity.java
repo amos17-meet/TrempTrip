@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Group g=dataSnapshot.getValue(Group.class);
-                Log.w("user",g.getUsers().get(0).getFullName());
+                //Log.w("user",g.getUsers().get(0).getFullName());
             }
 
             @Override
